@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Power Island • Pixel Energy Tycoon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#65d3e5;font-family:Tahoma,Arial,sans-serif;color:#17333c}
+body{touch-action:none}
+#game{position:fixed;inset:0;overflow:hidden;background:#55c9df}
+canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.ui{position:absolute;inset:0;pointer-events:none}
+.top{position:absolute;top:6px;left:6px;right:6px;display:flex;gap:5px;justify-content:center;flex-wrap:wrap;pointer-events:none}
+.stat{pointer-events:auto;background:#44799a;border:3px solid #245675;color:white;border-radius:9px;padding:5px 8px;box-shadow:0 3px 0 #173f59,0 5px 10px #0003;text-shadow:2px 2px #24465b;font-weight:900;font-size:11px;white-space:nowrap}
+.stat b{color:#fff2a1}
+.leftbar{position:absolute;top:185px;left:0;display:flex;flex-direction:column;gap:4px;pointer-events:auto}
+.lbtn{width:54px;height:54px;border:3px solid #285a79;background:#6194b1;color:#fff;border-radius:0 9px 9px 0;box-shadow:3px 3px 0 #244d68;font-size:24px;text-shadow:2px 2px #31566c}
+.lbtn:active,.buildBtn:active{transform:translateY(2px)}
+.rightAction{position:absolute;top:205px;right:7px;pointer-events:auto}
+.cityBtn{display:block;margin-top:6px;width:78px;height:46px;border:3px solid #285a79;background:#6fa6bd;color:white;border-radius:9px;box-shadow:3px 3px 0 #244d68;font-size:18px}.cityBtn small{display:block;font-size:8px}.eitaaJoin{position:absolute;right:8px;bottom:88px;z-index:8;width:92px;height:54px;border:3px solid #285a79;background:#e7b63f;color:#4b3400;border-radius:10px;box-shadow:3px 3px 0 #244d68;font-weight:900;font-size:11px;pointer-events:auto}
+.eitaaJoin .ico{display:block;font-size:20px;line-height:20px}
+.energyBtn{width:78px;height:60px;border:3px solid #285a79;background:#6598b5;border-radius:11px;box-shadow:3px 3px 0 #244d68;color:white;font-size:24px}
+.energyBtn small{font-size:9px;display:block}
+.bottom{position:absolute;bottom:0;left:0;right:0;height:78px;background:#315f73e8;border-top:3px solid #20495d;display:flex;gap:7px;padding:6px;overflow-x:auto;pointer-events:auto;direction:rtl}
+.buildBtn{min-width:78px;border:3px solid #28536a;background:#79a9be;border-radius:9px;color:white;font-weight:900;box-shadow:0 3px 0 #20465b;text-shadow:2px 2px #31576b;font-size:10px}
+.buildBtn .ico{display:block;font-size:25px;line-height:29px}.buildBtn.locked{filter:grayscale(.7);opacity:.65}
+.zoomBtns{position:absolute;right:8px;bottom:92px;display:flex;flex-direction:column;gap:4px;pointer-events:auto}
+.zoomBtns button{width:38px;height:38px;border:3px solid #285a79;background:#6598b5;color:white;border-radius:9px;box-shadow:3px 3px 0 #244d68;font-size:22px;font-weight:900}
+#panel{position:absolute;z-index:10;left:8px;right:8px;bottom:86px;background:#fff5d5;border:3px solid #ad7e3b;border-radius:12px;box-shadow:0 7px 20px #0005;padding:11px;display:none;pointer-events:auto;max-height:44vh;overflow:auto}
+#panel.show{display:block}.panelHead{display:flex;justify-content:space-between;align-items:center}.panelHead button{border:0;background:#c85a4c;color:white;border-radius:7px;padding:4px 8px}.primary{border:0;background:#4e9f49;color:white;border-radius:8px;padding:9px 12px;font-weight:bold}.gold{border:0;background:#e5b638;color:#4b3400;border-radius:8px;padding:9px 12px;font-weight:bold}.danger{border:0;background:#c75a4e;color:white;border-radius:8px;padding:8px}.bar{height:10px;background:#c9c9b7;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:#55a951}.hint{font-size:11px;line-height:1.65;color:#655d4e}
+.machineHint{position:absolute;z-index:20;pointer-events:none;background:#173b46cc;color:white;border:2px solid #6be08a;border-radius:8px;padding:4px 7px;font-size:11px;display:none}.machineHint.show{display:block}
+#toast{position:absolute;z-index:30;top:72px;left:50%;transform:translateX(-50%);background:#193b46;color:white;padding:8px 13px;border-radius:9px;border:2px solid #32606c;opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;font-size:12px}
+#toast.show{opacity:1}
+#modal{position:absolute;inset:0;background:#0008;z-index:40;display:none;align-items:center;justify-content:center;padding:18px;pointer-events:auto}
+#modal.show{display:flex}.modalBox{background:#fff5d5;border:4px solid #ad7e3b;border-radius:13px;box-shadow:0 10px 30px #0007;padding:16px;max-width:430px;width:100%}
+.modalBox h2{margin:0 0 9px}.modalBox button{margin-top:7px}
+@media(min-width:700px){.bottom{height:90px}.buildBtn{min-width:100px}.leftbar{top:210px}.lbtn{width:62px;height:62px}.stat{font-size:13px}}
+</style>
+</head>
+<body>
+<div id="game"><canvas id="c"></canvas>
+<div class="ui">
+ <div class="top">
+  <div class="stat">⚡ <b id="energy">0</b> kWh</div>
+  <div class="stat">🔋 <b id="stored">0</b>/<b id="cap">0</b></div>
+  <div class="stat">💰 <b id="cash">2500</b>$</div>
+  <div class="stat">⭐ <b id="lvl">1</b> · <b id="xp">0</b>%</div>
+  <div class="stat">🌤️ <b id="weather">آفتابی</b></div><div class="stat">🕘 <b id="day">روز 1</b></div>
+ </div>
+ <div class="leftbar">
+  <button class="lbtn" onclick="openPanel('shop')">🔨</button>
+  <button class="lbtn" onclick="openPanel('upgrade')">⬆️</button>
+  <button class="lbtn" onclick="openPanel('research')">⚗️</button>
+  <button class="lbtn" onclick="openPanel('contract')">📜</button>
+  <button class="lbtn" onclick="openPanel('stats')">📊</button>
+  <button class="lbtn" onclick="openPanel('ship')">🚢</button>
+  <button class="lbtn" onclick="openPanel('missions')">🏆</button>
+  <button class="lbtn" onclick="openHelp()">☰</button>
+ </div>
+ <div class="rightAction"><button class="energyBtn" onclick="sellEnergy()">⚡➡️💵<small>فروش برق</small></button><button class="cityBtn" onclick="openPanel('city')">🏙️<small>قرارداد شهر</small></button></div>
+ <div class="zoomBtns">
+  <button onclick="zoomBy(0.15)">＋</button>
+  <button onclick="zoomBy(-0.15)">−</button>
+  <button onclick="resetView()">⌂</button>
+ </div>
+ <div id="toast"></div><div id="machineHint" class="machineHint"></div><div id="panel"></div>
+ <button class="eitaaJoin" onclick="joinEitaa()"><span class="ico">📢</span>عضویت در ایتا<br>🎁 جایزه</button>
+ <div class="bottom" id="buildBar">
+  <button class="buildBtn" data-type="wind"><span class="ico">🌬️</span>توربین<br>800$</button>
+  <button class="buildBtn" data-type="battery"><span class="ico">🔋</span>باتری<br>1200$</button>
+  <button class="buildBtn" data-type="solar"><span class="ico">☀️</span>پنل<br>1800$</button>
+  <button class="buildBtn" data-type="inverter"><span class="ico">🔄</span>اینورتر<br>2500$</button>
+  <button class="buildBtn" data-type="diesel"><span class="ico">⛽</span>ژنراتور<br>12000$</button>
+  <button class="buildBtn locked" data-type="uranium"><span class="ico">☢️</span>هسته‌ای<br>قفل</button>
+  <button class="buildBtn" onclick="buyLand()"><span class="ico">🟩</span>زمین<br>500$</button>
+ </div>
+</div></div>
+<div id="modal"><div class="modalBox" id="modalBox"></div></div>
+
+<script>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+ctx.imageSmoothingEnabled=false;
+const SAVE='power_island_pixel_v10';
+const SAVE_BACKUP='power_island_pixel_v10_backup';
+const LEGACY_SAVE='power_island_pixel_v02';
+const W=9,H=11,T=64;
+const B={
+ wind:{name:'توربین بادی',price:800,power:1,cycle:10,energy:10,emoji:'🌬️',desc:'باد پره‌ها را می‌چرخاند و ژنراتور داخل توربین برق تولید می‌کند.'},
+ battery:{name:'باتری کوچک',price:1200,cap:1000,emoji:'🔋',desc:'باتری انرژی اضافه را ذخیره می‌کند تا تولیدکننده‌ها مجبور نباشند همیشه خاموش شوند.'},
+ solar:{name:'پنل خورشیدی',price:1800,power:0.5,cycle:12,energy:15,emoji:'☀️',desc:'پنل خورشیدی برق DC تولید می‌کند و در نور بهتر، تولید بیشتری دارد.'},
+ inverter:{name:'اینورتر',price:2500,emoji:'🔄',desc:'اینورتر برق DC را به AC تبدیل می‌کند تا برای شبکه AC قابل استفاده باشد.'},
+ diesel:{name:'ژنراتور دیزلی',price:12000,power:20,cycle:10,energy:200,emoji:'⛽',fuel:10,desc:'ژنراتور با سوزاندن دیزل برق قابل اتکاتری تولید می‌کند، اما سوخت مصرف می‌کند.'},
+ uranium:{name:'نیروگاه هسته‌ای',price:500000,power:50,cycle:30,energy:1500,emoji:'☢️',desc:'نیروگاه هسته‌ای پس از رسیدن به سطح 8 باز می‌شود و تولید پایدار دارد.'}
+};
+let loadedSave=null;
+try{loadedSave=JSON.parse(localStorage.getItem(SAVE)||localStorage.getItem(SAVE_BACKUP)||localStorage.getItem(LEGACY_SAVE)||'null')}catch(e){loadedSave=null}
+let s=loadedSave||{
+ cash:2500,energy:0,cap:0,xp:0,level:1,selected:-1,weather:'آفتابی',fuel:0,inverter:0,
+ tiles:Array(W*H).fill('locked'),running:{},upgrades:{},cleared:{},secondIsland:false,eitaaReward:false,
+ day:1,gameMinutes:480,shipVisits:0,missions:{energy:false,land:false,upgrade:false,city:false},missionShown:{}
+};
+if(!loadedSave){for(let y=3;y<8;y++)for(let x=1;x<8;x++)s.tiles[y*W+x]='empty';}
+let gameMinutes=s.gameMinutes||480;
+let dayTimer=Date.now();
+let lastAutoSave=Date.now();
+let camera={x:0,y:0,scale:1},drag=null,particles=[],floaters=[];
+const moneyEl=document.getElementById('cash');
+
+function save(){
+ try{
+  const raw=JSON.stringify(s);
+  localStorage.setItem(SAVE,raw);
+  localStorage.setItem(SAVE_BACKUP,raw);
+ }catch(e){}
+}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1600)}
+function missionPopup(title,doneKey){
+ const box=document.getElementById('modalBox');
+ const names={energy:'⚡ تولید و ذخیره برق',land:'🟩 گسترش زمین',upgrade:'⬆️ ارتقای دستگاه',city:'🏙️ قرارداد شهر'};
+ const rewards={energy:600,land:800,upgrade:1000,city:1500};
+ let html='<h2>🎉 تبریک!</h2><p><b>'+names[doneKey]+'</b> را با موفقیت انجام دادی.</p><p>🎁 جایزه: <b>'+rewards[doneKey]+'$</b></p><hr><p><b>عملیات‌های باقی‌مانده امروز:</b></p>';
+ Object.keys(names).forEach(k=>{html+=`<p>${s.missions[k]?'✅':'⬜'} ${names[k]}${s.missions[k]?'':' — '+rewards[k]+'$'}</p>`});
+ html+='<button class="primary" onclick="closeModal()">ادامه بازی</button>';
+ box.innerHTML=html;document.getElementById('modal').classList.add('show');
+}
+function completeMission(key){
+ if(s.missionShown[key])return;
+ s.missionShown[key]=true;
+ const rewards={energy:600,land:800,upgrade:1000,city:1500};
+ s.cash+=rewards[key];
+ missionPopup('',key);save();updateUI();
+}
+
+window.addEventListener('pagehide',()=>save());document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+function addXP(n){s.xp+=n;if(s.xp>=100){s.xp-=100;s.level++;s.cash+=500;toast('🎉 سطح جدید! +500$ جایزه');}save()}
+function resize(){canvas.width=innerWidth*devicePixelRatio;canvas.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+addEventListener('resize',resize);resize();
+
+function islandOrigin(){
+ const iw=W*T,ih=H*T;
+ return {x:(innerWidth-iw)/2+camera.x,y:150+camera.y};
+}
+function drawCloud(x,y,sc=1){
+ ctx.fillStyle='#a4e8df';ctx.strokeStyle='#4c99c1';ctx.lineWidth=3;
+ ctx.beginPath();ctx.arc(x,y,30*sc,0,Math.PI*2);ctx.arc(x+28*sc,y-15*sc,38*sc,0,Math.PI*2);ctx.arc(x+65*sc,y,31*sc,0,Math.PI*2);ctx.arc(x+35*sc,y+18*sc,40*sc,0,Math.PI*2);ctx.fill();ctx.stroke();
+ ctx.strokeStyle='#d5f4dd';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+22*sc,y-10*sc,18*sc,.2,1.7);ctx.stroke();
+}
+function drawTree(x,y){
+ ctx.fillStyle='#315f3c';ctx.fillRect(x+15,y+35,8,16);
+ ctx.fillStyle='#2f7f49';ctx.fillRect(x+5,y+20,28,28);ctx.fillStyle='#3d9a52';ctx.fillRect(x+10,y+12,22,25);ctx.fillStyle='#65b85d';ctx.fillRect(x+15,y+8,12,12);
+}
+function drawRock(x,y){ctx.fillStyle='#33454d';ctx.fillRect(x+7,y+25,45,25);ctx.fillStyle='#4c626b';ctx.beginPath();ctx.moveTo(x+7,y+25);ctx.lineTo(x+25,y+7);ctx.lineTo(x+40,y+25);ctx.lineTo(x+53,y+17);ctx.lineTo(x+53,y+50);ctx.lineTo(x+7,y+50);ctx.fill();ctx.strokeStyle='#25383f';ctx.lineWidth=3;ctx.stroke()}
+function drawBuilding(type,x,y,run){
+ ctx.save();ctx.translate(x,y);
+ ctx.fillStyle='#263d42';ctx.fillRect(7,40,50,17);
+ if(type==='wind'){
+  ctx.fillStyle='#e8e8dc';ctx.fillRect(31,24,5,32);ctx.fillRect(20,52,28,4);
+  ctx.translate(34,24);ctx.rotate(run?.angle||0);
+  ctx.fillStyle='#f4f2e6';for(let i=0;i<3;i++){ctx.save();ctx.rotate(i*2.094);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(4,-27);ctx.lineTo(8,-29);ctx.lineTo(5,0);ctx.fill();ctx.restore()}
+  ctx.fillStyle='#7a8d92';ctx.beginPath();ctx.arc(0,0,5,0,Math.PI*2);ctx.fill();
+ }else if(type==='solar'){
+  ctx.fillStyle='#244d67';ctx.fillRect(5,18,52,24);ctx.strokeStyle='#8ad1df';ctx.lineWidth=2;
+  for(let i=1;i<5;i++){ctx.beginPath();ctx.moveTo(5+i*10,18);ctx.lineTo(5+i*10,42);ctx.stroke()}
+  for(let i=1;i<2;i++){ctx.beginPath();ctx.moveTo(5,18+i*12);ctx.lineTo(57,18+i*12);ctx.stroke()}
+  ctx.fillStyle='#fff';ctx.fillRect(24,44,14,4);
+ }else if(type==='battery'){
+  ctx.fillStyle='#4e6d73';ctx.fillRect(8,18,44,34);ctx.fillStyle='#d3e7dc';ctx.fillRect(22,12,16,7);
+  ctx.fillStyle='#69df75';ctx.fillRect(13,24,34,8);ctx.fillStyle='#3d8e52';ctx.fillRect(13,35,34,7);
+ }else if(type==='inverter'){
+  ctx.fillStyle='#d8d8cc';ctx.fillRect(10,15,44,37);ctx.fillStyle='#425e66';ctx.fillRect(15,20,34,14);ctx.fillStyle='#7df078';ctx.fillRect(18,23,8,5);ctx.fillStyle='#e3c84d';ctx.fillRect(31,23,12,5);
+ }else if(type==='uranium'){
+  ctx.fillStyle='#6b6f73';ctx.fillRect(8,18,48,34);ctx.fillStyle='#d9d9c9';ctx.fillRect(15,25,34,12);ctx.fillStyle='#6be06b';ctx.fillRect(22,29,12,6);ctx.fillStyle='#4b4b4b';ctx.fillRect(19,12,22,7);
+ }else if(type==='diesel'){
+  ctx.fillStyle='#657b55';ctx.fillRect(8,18,48,34);ctx.fillStyle='#a8b8a1';ctx.fillRect(15,25,34,11);ctx.fillStyle='#3e5255';ctx.fillRect(20,28,8,5);ctx.fillStyle='#e8e2cc';ctx.fillRect(34,28,10,5);ctx.fillStyle='#34484a';ctx.fillRect(19,12,22,7);
+  ctx.fillStyle='#8c5b42';ctx.fillRect(50,7,5,12);
+ }else{ctx.fillStyle='#ddd';ctx.fillRect(10,18,44,32)}
+ if(run){ctx.fillStyle='#67f27b';ctx.fillRect(50,8,7,7);}
+ ctx.restore();
+}
+function drawTile(v,x,y,i){
+ ctx.fillStyle=v==='locked'?'#6f7772':'#6dc257';ctx.fillRect(x+1,y+1,T-2,T-2);
+ ctx.fillStyle=v==='locked'?'#5e6662':'#58a94b';ctx.fillRect(x+1,y+T-8,T-2,7);
+ ctx.strokeStyle='#4e9a47';ctx.lineWidth=2;ctx.strokeRect(x+1,y+1,T-2,T-2);
+ if(v==='locked'){ctx.fillStyle='#e6ece7';ctx.font='22px Arial';ctx.textAlign='center';ctx.fillText('🔒',x+T/2,y+38);return}
+ if(v==='empty'){
+  if(hasObstacle(i) && (i*7)%5===0)drawTree(x+3,y+5);
+  else if(hasObstacle(i) && (i*11)%13===0)drawRock(x,y);
+  ctx.fillStyle='#ffffff18';ctx.fillRect(x+8,y+9,5,3);ctx.fillRect(x+40,y+30,4,3);
+ }else drawBuilding(v,x,y,s.running[i]);
+}
+function draw(){
+ ctx.clearRect(0,0,innerWidth,innerHeight);
+ ctx.fillStyle='#58cbe2';ctx.fillRect(0,0,innerWidth,innerHeight);
+ // water ripples
+ ctx.strokeStyle='#8be0e5';ctx.lineWidth=2;
+ const tm=Date.now()/700;
+ for(let y=80;y<innerHeight;y+=55)for(let x=0;x<innerWidth;x+=85){
+   const xx=x+Math.sin(tm+y*.01)*8;ctx.beginPath();ctx.arc(xx,y,12,0,Math.PI);ctx.stroke();
+ }
+ drawCloud((Date.now()/45)% (innerWidth+260)-130,105,.8);
+ drawCloud((Date.now()/60+240)% (innerWidth+300)-150,190,1);
+
+ // جزیره دوم قفل شده با ابر
+ const island2x=innerWidth-130, island2y=330;
+ ctx.fillStyle='#d6c07b';
+ ctx.beginPath();ctx.roundRect(island2x-45,island2y-25,150,100,25);ctx.fill();
+ ctx.fillStyle='#5fc35b';
+ ctx.fillRect(island2x-25,island2y,100,55);
+ if(!s.secondIsland){
+   drawCloud(island2x-30,island2y-15,0.75);
+   drawCloud(island2x+45,island2y+5,0.65);
+   ctx.fillStyle='white';ctx.font='20px Arial';ctx.fillText('🔒',island2x+15,island2y+38);
+ }
+ const o=islandOrigin();
+ // World layer: zoom like moving the camera higher/lower.
+ const cx=innerWidth/2, cy=Math.min(innerHeight*.58, o.y+H*T/2);
+ ctx.save();
+ ctx.translate(cx,cy);ctx.scale(camera.scale,camera.scale);ctx.translate(-cx,-cy);
+ // island border
+ ctx.fillStyle='#e4c57a';ctx.beginPath();ctx.roundRect(o.x-12,o.y-12,W*T+24,H*T+24,22);ctx.fill();
+ ctx.fillStyle='#b28a4c';ctx.fillRect(o.x-8,o.y+H*T+8,W*T+16,7);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=y*W+x;drawTile(s.tiles[i],o.x+x*T,o.y+y*T,i)}
+ // floating production particles
+ particles=particles.filter(p=>p.life>0);
+ for(const q of particles){ctx.globalAlpha=q.life;ctx.fillStyle=q.col;ctx.font='bold 14px Arial';ctx.fillText(q.text,q.x,q.y);q.y-=.5;q.life-=.02}
+ ctx.restore();
+ ctx.globalAlpha=1;
+ // day/night cycle: darker sky at night, brighter island during day
+ const phase=(gameMinutes%1440)/1440;
+ const night=Math.max(0,Math.sin((phase-.25)*Math.PI*2)*0.32);
+ if(night>0){
+   ctx.fillStyle=`rgba(25,42,75,${night})`;
+   ctx.fillRect(0,0,innerWidth,innerHeight);
+ }
+ requestAnimationFrame(draw);
+}
+function updateUI(){
+ energy.textContent=Math.floor(s.energy);stored.textContent=Math.floor(s.energy);cap.textContent=s.cap;cash.textContent=Math.floor(s.cash);lvl.textContent=s.level;xp.textContent=s.xp;weather.textContent=s.weather;day.textContent='روز '+s.day;
+}
+function hasObstacle(i){
+ if(!s.cleared) s.cleared={};
+ if(s.cleared[i]) return false;
+ // Deterministic decoration pattern: some empty tiles start with trees/rocks.
+ return s.tiles[i]==='empty' && (((i*7)%5===0) || ((i*11)%13===0));
+}
+function obstacleType(i){
+ return ((i*11)%13===0) ? '⛰️ سنگ' : '🌳 درخت';
+}
+function clearObstacle(i){
+ const cost=120+Math.floor(s.level*35);
+ if(s.cash<cost){toast('💸 برای پاکسازی پول کافی نیست');return}
+ s.cash-=cost;
+ if(!s.cleared)s.cleared={};
+ s.cleared[i]=1;
+ s.selected=i;
+ addXP(2);
+ toast('🧹 مانع پاک شد؛ حالا می‌توانی دستگاه بسازی');
+ openBuilding(i);save()
+}
+function selectTile(i){
+ s.selected=i;
+ if(s.tiles[i]==='locked')return;
+ if(['wind','solar','diesel','uranium'].includes(s.tiles[i])) startMachine(i);
+ openBuilding(i);save();
+}
+function machineStats(i){
+ const v=s.tiles[i],b=B[v],lv=s.upgrades[i]||0;
+ if(!b||!b.cycle)return null;
+ const mult=lv+1;
+ return {cycle:b.cycle*mult,energy:b.energy*mult};
+}
+
+function openBuilding(i){
+ const v=s.tiles[i],panel=document.getElementById('panel');if(v==='locked'){toast('🔒 این زمین قفل است');return}
+ if(v==='empty'){
+  if(hasObstacle(i)){
+   const cost=120+Math.floor(s.level*35);
+   panel.innerHTML=`<div class="panelHead"><b>${obstacleType(i)}</b><button onclick="closePanel()">×</button></div>
+   <p class="hint">این Tile یک مانع طبیعی دارد. برای ساخت نیروگاه باید آن را پاک کنی.</p>
+   <button class="primary" onclick="clearObstacle(${i})">🧹 پاکسازی · ${cost}$</button>`;
+  }else{
+   panel.innerHTML=`<div class="panelHead"><b>🟩 زمین خالی</b><button onclick="closePanel()">×</button></div><p class="hint">یک ساختمان از نوار پایین انتخاب کن. زمین‌های بیشتر با پیشرفت قابل خرید هستند.</p>`;
+  }
+ }
+ else{
+  const b=B[v],run=s.running[i],left=run?Math.max(0,run.end-Date.now()):0;
+  let extra='';
+  if(v==='wind'||v==='solar'||v==='diesel'||v==='uranium'){
+    const st=machineStats(i),left=run?Math.max(0,run.end-Date.now()):0;
+    const percent=run?Math.max(0,100-left/(st.cycle*1000)*100):0;
+    extra=`<p>تولید: <b>${st.energy} kWh</b> · زمان روشن بودن: <b>${st.cycle}s</b></p>
+    <div class="bar"><i style="width:${percent}%"></i></div>
+    <p class="hint">${run?'🟢 در حال تولید — با لمس دوباره بعد از خاموش شدن روشن می‌شود':'⚪ خاموش — برای روشن کردن فقط خود دستگاه را لمس کن'}</p>`;
+    if(v==='diesel')extra+=` <button class="gold" onclick="buyFuel()">⛽ خرید 20L · 100$</button>`;
+  }
+  if(v==='battery')extra=`<p>ظرفیت: <b>${s.cap} kWh</b></p><div class="bar"><i style="width:${s.cap?Math.min(100,s.energy/s.cap*100):0}%"></i></div>`;
+  if(v==='inverter')extra=`<p>وضعیت: <b>${s.inverter?'فعال':'غیرفعال'}</b></p><p class="hint">برای فروش برق AC از منابع DC، اینورتر لازم است.</p>`;
+  panel.innerHTML=`<div class="panelHead"><b>${b.emoji} ${b.name}</b><button onclick="closePanel()">×</button></div><p class="hint">${b.desc}</p>${extra}<br><button class="gold" onclick="upgrade(${i})">⬆️ ارتقا ${upgradeCost(i)}$</button>`;
+ }
+ panel.classList.add('show');
+}
+function closePanel(){document.getElementById('panel').classList.remove('show')}
+function startMachine(i){
+ const v=s.tiles[i],b=B[v],st=machineStats(i);if(!st)return;
+ if(s.running[i]&&s.running[i].end>Date.now())return;
+ if(v==='diesel'){if(s.fuel<10)return;s.fuel-=10}
+ const now=Date.now();
+ s.running[i]={end:now+st.cycle*1000,startTime:now,lastTick:now,remaining:st.energy,cycle:st.cycle,energy:st.energy,angle:0};
+ addFloat(i,'+'+st.energy+' kWh','#fff29b');
+ save();updateUI();
+}
+function addFloat(i,text,col){const o=islandOrigin(),x=i%W,y=Math.floor(i/W);floaters.push({});particles.push({x:o.x+x*T+20,y:o.y+y*T+10,text,col,life:1})}
+function buyFuel(){if(s.cash<100){toast('💸 پول کافی نیست');return}s.cash-=100;s.fuel+=20;toast('⛽ 20 لیتر دیزل خریدی');updateUI();save()}
+function upgradeCost(i){let lv=s.upgrades[i]||0;return Math.floor(500*Math.pow(1.55,lv))}
+function upgrade(i){
+ const v=s.tiles[i],cost=upgradeCost(i);if(s.cash<cost){toast('💸 پول کافی نیست');return}
+ s.cash-=cost;s.upgrades[i]=(s.upgrades[i]||0)+1;s.missions.upgrade=true;
+ addXP(8);completeMission('upgrade');openBuilding(i);save()
+}
+function buySecondIsland(){
+ if(s.secondIsland){toast('🏝️ جزیره دوم قبلاً خریداری شده');return}
+ if(s.level<5){toast('⭐ جزیره دوم در سطح 5 باز می‌شود');return}
+ if(s.cash<50000){toast('💸 پول کافی نیست');return}
+ s.cash-=50000;
+ s.secondIsland=true;
+ addXP(30);
+ toast('🏝️ جزیره دوم آزاد شد!');
+ save();
+}
+
+function shipTrade(){
+ if(s.cash<700){toast('💸 پول کافی نیست');return}
+ s.cash-=700;
+ s.shipVisits++;
+ const bonus=900+Math.floor(Math.random()*700);
+ s.cash+=bonus;
+ s.fuel+=5;
+ addXP(6);
+ toast('🚢 محموله رسید: +'+bonus+'$ و 5L دیزل');
+ save();updateUI();
+}
+
+function cityContract(need,reward){
+ if(!s.inverter){toast('🔄 اول اینورتر بساز');return}
+ if(s.energy<need){toast('⚡ برق کافی برای قرارداد نیست');return}
+ s.energy-=need;s.cash+=reward;
+ s.missions.city=true;completeMission('city');
+ addXP(25);
+ toast('🏙️ قرارداد شهر تحویل شد');
+ save();updateUI();
+}
+
+function joinEitaa(){
+ window.open('https://eitaa.com/basibargh','_blank');
+ if(!s.eitaaReward){
+   s.eitaaReward=true;
+   s.cash+=3000;
+   addXP(10);
+   toast('🎁 جایزه عضویت دریافت شد');
+   save();
+ }else{
+   toast('📢 کانال بازی در ایتا باز شد');
+ }
+}
+
+function buyLand(){
+ const idx=s.tiles.indexOf('locked');if(idx<0){toast('🏝 همه زمین‌ها باز هستند');return}
+ const price=500+Math.floor(s.level/2)*250;
+ if(s.cash<price){toast('💸 برای زمین پول کافی نیست');return}
+ s.cash-=price;s.tiles[idx]='empty';s.missions.land=true;addXP(4);completeMission('land');toast('🏝 زمین جدید باز شد');save()
+}
+function sellEnergy(){
+ if(s.energy<10){toast('⚡ حداقل 10 kWh برای فروش لازم است');return}
+ const n=Math.min(100,Math.floor(s.energy/10)*10);
+ s.energy-=n;s.cash+=n*4;addXP(2);save()
+}
+function openPanel(type){
+ const p=document.getElementById('panel');
+ if(type==='shop'){
+  p.innerHTML=`<div class="panelHead"><b>🔨 ساخت و ساز</b><button onclick="closePanel()">×</button></div>
+  <p>ساختمان‌ها را روی Tile خالی بساز.</p>
+  <button class="gold" disabled>🏝️ جزیره دوم · به‌زودی</button>
+  <p class="hint">جزیره دوم فعلاً قابل خرید نیست. قابلیت آن در به‌روزرسانی آینده فعال می‌شود.</p>`;
+ }else if(type==='upgrade'){
+  p.innerHTML=`<div class="panelHead"><b>⬆️ ارتقا</b><button onclick="closePanel()">×</button></div><p class="hint">روی هر ساختمان بزن و ارتقای آن را انجام بده. هر سطح، عملکرد آن را بهتر می‌کند.</p>`;
+ }else if(type==='research'){
+  p.innerHTML=`<div class="panelHead"><b>⚗️ تحقیقات</b><button onclick="closePanel()">×</button></div>
+  <p>🌬️ باد: <b>${s.level>=1?'باز':'قفل'}</b></p><p>☀️ خورشیدی: <b>${s.level>=1?'باز':'قفل'}</b></p>
+  <p>⛽ ژنراتور دیزلی: <b>${s.level>=2?'باز':'در سطح 2'}</b></p>
+  <p>☢️ غنی‌سازی و نیروگاه هسته‌ای: <b>${s.level>=8?'باز':'در سطح 8'}</b></p>`;
+ }else if(type==='contract'){
+  const need=s.level<3?100:500;
+  p.innerHTML=`<div class="panelHead"><b>📜 قرارداد برق</b><button onclick="closePanel()">×</button></div>
+  <p>🏘️ شهرک کوچک</p><p>نیاز شبکه: <b>${need} kWh</b> ذخیره و اینورتر فعال</p>
+  <p>پاداش قرارداد: <b>2,500$</b></p><button class="primary" onclick="contract(${need})">بررسی قرارداد</button>`;
+ }else if(type==='ship'){
+  p.innerHTML=`<div class="panelHead"><b>🚢 کشتی تدارکات</b><button onclick="closePanel()">×</button></div>
+  <p class="hint">هر چند دقیقه یک کشتی به جزیره می‌رسد و یک محموله ارزان می‌آورد.</p>
+  <p>آخرین سفر: <b>${s.shipVisits}</b></p>
+  <button class="gold" onclick="shipTrade()">📦 خرید محموله · 700$</button>`;
+ }else if(type==='missions'){
+  const m=s.missions;
+  p.innerHTML=`<div class="panelHead"><b>🏆 مأموریت‌های روزانه</b><button onclick="closePanel()">×</button></div>
+  <p>⚡ تولید/ذخیره 100 kWh — ${m.energy?'✅':'🎁 600$'}</p>
+  <p>🟩 خرید یک زمین — ${m.land?'✅':'🎁 800$'}</p>
+  <p>⬆️ یک ارتقا — ${m.upgrade?'✅':'🎁 1000$'}</p>
+  <p>🏙️ تحویل یک قرارداد — ${m.city?'✅':'🎁 1500$'}</p>
+  <p class="hint">مأموریت‌ها هر روز با شروع روز جدید تازه می‌شوند.</p>`;
+ }else if(type==='city'){
+  const need=s.level<7?500:2500, reward=s.level<7?4500:18000;
+  p.innerHTML=`<div class="panelHead"><b>🏙️ شهر و شهرک صنعتی</b><button onclick="closePanel()">×</button></div>
+  <p>شبکه شهر به <b>${need} kWh</b> برق نیاز دارد.</p>
+  <p>قرارداد فعلی: <b>${reward}$</b></p>
+  <p class="hint">برای منابع DC، اینورتر لازم است. با افزایش سطح، شهرهای بزرگ‌تر باز می‌شوند.</p>
+  <button class="primary" onclick="cityContract(${need},${reward})">📜 تحویل برق</button>`;
+ }else{
+  const counts={wind:0,solar:0,battery:0,inverter:0,diesel:0};s.tiles.forEach(x=>{if(counts[x]!=null)counts[x]++});
+  p.innerHTML=`<div class="panelHead"><b>📊 آمار نیروگاه</b><button onclick="closePanel()">×</button></div>
+  <p>🌬️ توربین: ${counts.wind}</p><p>☀️ پنل: ${counts.solar}</p><p>🔋 باتری: ${counts.battery} · ${s.cap} kWh</p><p>⛽ ژنراتور: ${counts.diesel}</p><p>⛽ سوخت: ${s.fuel} L</p><p>⭐ سطح: ${s.level}</p><button class="primary" onclick="save();toast('💾 بازی ذخیره شد')">💾 ذخیره دستی</button><button class="gold" onclick="continueSaved()">▶️ ادامه بازی</button>`;
+ }
+ p.classList.add('show')
+}
+function contract(need){
+ if(s.energy<need||!s.inverter){toast(!s.inverter?'🔄 اول اینورتر بساز':'⚡ برق ذخیره کافی نیست');return}
+ s.energy-=need;s.cash+=2500;addXP(20);toast('🏘️ قرارداد شهرک امضا شد! +2500$');save()
+}
+function openHelp(){
+ document.getElementById('modalBox').innerHTML=`<h2>🏝️ Power Island</h2>
+ <p>هدف: یک نیروگاه کوچک را به شبکه‌ای بزرگ تبدیل کن.</p>
+ <p>🌬️ <b>توربین:</b> هر بار کلیک، ۱۰ ثانیه روشن می‌ماند.</p>
+ <p>🔋 <b>باتری:</b> اگر ظرفیت ذخیره داشته باشی، تولیدکننده‌ها برق را تا پر شدن باتری از دست نمی‌دهند.</p>
+ <p>☀️ <b>پنل:</b> تولید DC دارد؛ برای شبکه AC به اینورتر نیاز است.</p>
+ <p>⛽ <b>ژنراتور:</b> به دیزل نیاز دارد و منبع پشتیبان قابل اتکاتری است.</p>
+ <p>📜 بعد از رشد نیروگاه می‌توانی با شهرها قرارداد ببندی.</p>
+ <button class="primary" onclick="closeModal()">باشه</button>
+ <button class="danger" onclick="resetGame()">شروع دوباره</button>`;
+ document.getElementById('modal').classList.add('show')
+}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function continueSaved(){location.reload()}
+function resetGame(){if(confirm('همه پیشرفت پاک شود؟')){localStorage.removeItem(SAVE);location.reload()}}
+document.querySelectorAll('.buildBtn[data-type]').forEach(btn=>btn.addEventListener('click',()=>{
+ const type=btn.dataset.type;
+ if(type==='uranium'&&s.level<8){toast('☢️ نیروگاه هسته‌ای در سطح 8 باز می‌شود');return}
+ if(type==='diesel'&&s.level<2){toast('⛽ ژنراتور در سطح 2 باز می‌شود');return}
+ if(s.selected<0||s.tiles[s.selected]!=='empty'){toast('🟩 اول یک زمین خالی انتخاب کن');return}
+ const b=B[type];if(s.cash<b.price){toast('💸 پول کافی نیست');return}
+ s.cash-=b.price;s.tiles[s.selected]=type;
+ if(type==='battery')s.cap+=b.cap;
+ if(type==='inverter')s.inverter=1;
+ addXP(10);toast('🏗️ '+b.name+' ساخته شد');openBuilding(s.selected);save()
+}));
+let pointers=new Map(),pinchStart=0,pinchScale=1,tapStart=null;
+function screenToTile(px,py){
+ const o=islandOrigin(),cx=innerWidth/2,cy=Math.min(innerHeight*.58,o.y+H*T/2);
+ const wx=(px-cx)/camera.scale+cx, wy=(py-cy)/camera.scale+cy;
+ const tx=Math.floor((wx-o.x)/T), ty=Math.floor((wy-o.y)/T);
+ if(tx<0||tx>=W||ty<0||ty>=H)return -1;
+ return ty*W+tx;
+}
+canvas.addEventListener('pointerdown',e=>{
+ if(e.target!==canvas)return;
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(pointers.size===1){
+  drag={x:e.clientX,y:e.clientY,cx:camera.x,cy:camera.y,moved:false};
+  tapStart={x:e.clientX,y:e.clientY,t:Date.now()};
+ }else if(pointers.size===2){
+  const a=[...pointers.values()];pinchStart=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);pinchScale=camera.scale;drag=null;
+ }
+});
+canvas.addEventListener('pointermove',e=>{
+ if(!pointers.has(e.pointerId))return;
+ pointers.get(e.pointerId).x=e.clientX;pointers.get(e.pointerId).y=e.clientY;
+ if(pointers.size===2){
+  const a=[...pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+  camera.scale=Math.max(.65,Math.min(1.55,pinchScale*d/pinchStart));return;
+ }
+ if(!drag)return;
+ const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+ if(Math.abs(dx)+Math.abs(dy)>7)drag.moved=true;
+ camera.x=drag.cx+dx;camera.y=drag.cy+dy;
+});
+function pointerEnd(e){
+ if(pointers.has(e.pointerId))pointers.delete(e.pointerId);
+ if(pointers.size===0){
+  if(tapStart && !drag?.moved && Date.now()-tapStart.t<350){
+   const i=screenToTile(e.clientX,e.clientY);if(i>=0)selectTile(i);
+  }
+  drag=null;tapStart=null;
+ }
+}
+canvas.addEventListener('pointerup',pointerEnd);
+canvas.addEventListener('pointercancel',pointerEnd);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoomBy(e.deltaY<0?.1:-.1)},{passive:false});
+
+function tick(){
+ const now=Date.now();
+ // بازی زمان خودش را سریع‌تر از دنیای واقعی جلو می‌برد: هر 2 ثانیه ≈ 1 دقیقه بازی
+ if(now-dayTimer>=2000){
+   const steps=Math.floor((now-dayTimer)/2000);
+   gameMinutes+=steps;dayTimer+=steps*2000;
+   if(gameMinutes>=1440){
+     gameMinutes-=1440;s.day++;
+     s.missions={energy:false,land:false,upgrade:false,city:false};s.missionShown={};
+     toast('🌅 روز جدید شروع شد');
+   }
+   if(gameMinutes>=1140 && gameMinutes<1200)s.weather='ابری';
+   else if(Math.random()<.08)s.weather=Math.random()<.65?'آفتابی':'ابری';
+   s.gameMinutes=gameMinutes;
+ }
+
+ Object.keys(s.running).forEach(k=>{
+  const i=+k,r=s.running[i],b=B[s.tiles[i]];
+  if(!b){delete s.running[i];return}
+  const nowTick=Date.now();
+  const dt=Math.max(0,Math.min((nowTick-(r.lastTick||r.startTime))/1000,1));
+  const rate=(r.energy||0)/(r.cycle||b.cycle||1);
+  const produced=Math.min(r.remaining||0,rate*dt);
+  const cap=s.cap>0?s.cap:999999;
+  const accepted=Math.max(0,Math.min(produced,cap-s.energy));
+  s.energy+=accepted;
+  r.remaining=Math.max(0,(r.remaining||0)-produced);
+  r.lastTick=nowTick;
+  r.angle=(r.angle||0)+.08;
+  if(nowTick>=r.end){
+   delete s.running[i];
+   if(s.energy>=100 && !s.missions.energy){s.missions.energy=true;completeMission('energy');}
+   addXP(5);addFloat(i,'+'+Math.round(accepted)+' kWh','#fff09b');
+   if(s.selected===i)openBuilding(i);
+  }
+ });
+ if(Math.random()<.004)s.weather=s.weather==='آفتابی'?'ابری':'آفتابی';
+ updateUI();if(now-lastAutoSave>=3000){save();lastAutoSave=now}requestAnimationFrame(tick)
+}
+function patchRuns(){
+ Object.keys(s.running).forEach(k=>{
+  let r=s.running[k];
+  if(!r.startTime) r.startTime=Date.now();
+  if(!r.cycle) r.cycle=Math.max(1,(r.end-r.startTime)/1000);if(!r.energy) r.energy=B[s.tiles[k]]?.energy||0;if(!r.lastTick) r.lastTick=Date.now();if(!r.remaining) r.remaining=r.energy;
+ });
+}
+function zoomBy(delta){
+ camera.scale=Math.max(.65,Math.min(1.55,camera.scale+delta));
+ toast('🔎 زوم: '+Math.round(camera.scale*100)+'%');
+}
+function resetView(){camera.scale=1;camera.x=0;camera.y=0;toast('🎯 نمای اصلی')}
+function boot(){
+ // normalize saved state
+ s.tiles=s.tiles||Array(W*H).fill('locked');while(s.tiles.length<W*H)s.tiles.push('locked');
+ s.running=s.running||{};s.upgrades=s.upgrades||{};s.secondIsland=s.secondIsland||false;s.eitaaReward=s.eitaaReward||false;
+s.day=s.day||1;s.gameMinutes=s.gameMinutes||480;s.fuel=s.fuel||0;s.shipVisits=s.shipVisits||0;
+s.missions=s.missions||{energy:false,land:false,upgrade:false,city:false};s.missionShown=s.missionShown||{};s.cleared=s.cleared||{};s.day=s.day||1;s.gameMinutes=s.gameMinutes||480;s.shipVisits=s.shipVisits||0;patchRuns();save();
+ Object.keys(s.running).forEach(k=>{let r=s.running[k];r.startTime=r.startTime||Date.now();r.endEnergy=r.endEnergy||s.energy});
+ updateUI();draw();tick()
+}
+boot();
+</script>
+</body>
+</html>
