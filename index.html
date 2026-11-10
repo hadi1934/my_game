@@ -47,6 +47,16 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 <div id="bag"><div id="bl"><div class="g" id="bg"></div><div class="g" id="bh"></div><div style="text-align:center;font-size:12px">لمس دو خانه = جابجایی | بستن: 🎒</div><button id="bw" onpointerdown="event.stopPropagation();openWS(0)">🔨 ساخت دستی</button></div></div>
 <div id="hf"></div><div id="tt"></div><div id="ws"><div id="wh"><b id="wt"></b><span id="wtabs"></span><button id="wx">✕</button></div><div id="wb"><div id="wl"></div><div id="wd"></div></div></div><div id="msg">مُردی! در حال برگشت…</div><div id="rot">لطفاً گوشی را بچرخانید (حالت افقی)</div>
 <script>
+// ---------- Eitaa WebApp initialization ----------
+try {
+  if (window.Eitaa && window.Eitaa.WebApp) {
+    window.Eitaa.WebApp.ready();
+    window.Eitaa.WebApp.expand();
+    window.Eitaa.WebApp.disableVerticalSwipes();
+  }
+} catch (e) {
+  console.warn('Eitaa WebApp initialization unavailable:', e);
+}
 const cv=document.getElementById('c'),gl=cv.getContext('webgl',{antialias:false});
 // ---------- atlas ----------
 const NT=96,T=document.createElement('canvas');T.width=NT*16;T.height=16;const tc=T.getContext('2d');
