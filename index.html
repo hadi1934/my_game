@@ -2,12 +2,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Wild Frontier - Minecraft</title>
 <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
-<script>
-!function(e,t,n){e.yektanetAnalyticsObject=n,e[n]=e[n]||function(){e[n].q.push(arguments)},e[n].q=e[n].q||[];var a=t.getElementsByTagName("head")[0],r=new Date,c="https://cdn.yektanet.ir/superscript-v2/diruUGgQ/native-49263/yn_pub.js?v="+r.getFullYear().toString()+"0"+r.getMonth()+"0"+r.getDate()+"0"+r.getHours(),s=t.createElement("link");s.rel="preload",s.as="script",s.href=c,a.appendChild(s);var l=t.createElement("script");l.async=!0,l.src=c,a.appendChild(l)}(window,document,"yektanet");
-</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
-html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none;font-family:system-ui,Tahoma,sans-serif;color:#fff}
+html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none;overscroll-behavior:none;font-family:system-ui,Tahoma,sans-serif;color:#fff}
+#gr{position:fixed;left:0;top:0;width:100%;height:100%;overflow:hidden;transform-origin:0 0}
+#gr.rot #rl,#gr.rot #wl,#gr.rot #wd,#gr.rot #lobby,#gr.rot #help{touch-action:none}
 #c{position:fixed;left:0;top:0;width:100%;height:100%}
 .b{position:fixed;width:54px;height:54px;border-radius:50%;background:#0006;border:2px solid #fff8;font-size:22px;display:flex;align-items:center;justify-content:center}
 #hb{position:fixed;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:3px}
@@ -15,7 +14,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 .sl canvas{width:100%;height:100%;image-rendering:pixelated}.sl span{position:absolute;right:1px;bottom:-1px;font-size:12px;font-weight:bold;text-shadow:1px 1px 2px #000}
 #bag{display:none;position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);background:#222e;border:2px solid #888;padding:8px;border-radius:8px;z-index:5;gap:10px;direction:rtl}
 #bl{direction:ltr}#bag .g{display:grid;grid-template-columns:repeat(9,40px);gap:3px;margin-bottom:8px;direction:ltr}
-#rl{width:215px;max-height:75vh;overflow-y:auto;display:flex;flex-direction:column;gap:4px;touch-action:pan-y}
+#rl{width:215px;max-height:calc(var(--vh,1vh)*75);overflow-y:auto;display:flex;flex-direction:column;gap:4px;touch-action:pan-y}
 #rl button{font:12px Tahoma,sans-serif;text-align:right;padding:6px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}#rl button.no{opacity:.35}
 #aim{position:fixed;left:50%;top:50%;width:54px;height:54px;margin:-27px;pointer-events:none;display:none}#aim svg{transform:rotate(-90deg)}
 #cr{position:fixed;left:50%;top:50%;width:20px;height:20px;margin:-10px;pointer-events:none}
@@ -23,19 +22,17 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 #cr:before{left:9px;top:0;width:2px;height:20px}#cr:after{top:9px;left:0;height:2px;width:20px}
 #base{pointer-events:none;position:fixed;left:30px;bottom:24px;width:100px;height:100px;border-radius:50%;background:#0003;border:2px solid #fff5}
 #kn{pointer-events:none;position:absolute;width:42px;height:42px;border-radius:50%;background:#fff7;left:27px;top:27px}
-#rot{display:none;position:fixed;inset:0;background:#000;z-index:9;align-items:center;justify-content:center;font-size:20px;text-align:center;padding:20px}
-@media(orientation:portrait){#rot{display:flex}}
 #tip{position:fixed;top:8px;left:0;right:0;text-align:center;font-size:12px;text-shadow:0 1px 3px #000;pointer-events:none}
 #st{position:fixed;bottom:52px;left:0;right:0;text-align:center;font-size:13px;pointer-events:none;text-shadow:0 1px 2px #000;white-space:pre}
 #hf{position:fixed;inset:0;background:#f00;opacity:0;pointer-events:none;transition:opacity .3s}
 #msg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#600a;font-size:22px;z-index:8;pointer-events:none}
 #tt{position:fixed;top:34px;left:0;right:0;text-align:center;pointer-events:none;font-size:15px;text-shadow:0 1px 3px #000;z-index:7}
-#ws{display:none;position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);width:min(640px,97vw);max-height:94vh;background:#222f;border:2px solid #888;border-radius:8px;z-index:6;flex-direction:column;direction:rtl;padding:6px;gap:6px}
+#ws{display:none;position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);width:min(640px,calc(var(--vw,1vw)*97));max-height:calc(var(--vh,1vh)*94);background:#222f;border:2px solid #888;border-radius:8px;z-index:6;flex-direction:column;direction:rtl;padding:6px;gap:6px}
 #wh{display:flex;gap:6px;align-items:center;flex-wrap:wrap}#wh b{font-size:15px}#wtabs{display:flex;gap:3px;flex:1;flex-wrap:wrap}
 #ws button{font:12px Tahoma,sans-serif;padding:5px 8px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}#ws button.on{background:#47a}#ws button.no{opacity:.4}
-#wb{display:flex;gap:8px}#wl{display:grid;grid-template-columns:repeat(5,44px);gap:4px;max-height:62vh;overflow-y:auto;align-content:start;touch-action:pan-y}
+#wb{display:flex;gap:8px}#wl{display:grid;grid-template-columns:repeat(5,44px);gap:4px;max-height:calc(var(--vh,1vh)*62);overflow-y:auto;align-content:start;touch-action:pan-y}
 #wl .sl{width:44px;height:44px}.sl.no canvas{opacity:.35}
-#wd{flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px;font-size:13px;max-height:62vh;overflow-y:auto;touch-action:pan-y}
+#wd{flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px;font-size:13px;max-height:calc(var(--vh,1vh)*62);overflow-y:auto;touch-action:pan-y}
 .wi{display:flex;gap:8px;align-items:center}.wi canvas{width:64px;height:64px;image-rendering:pixelated;background:#0006;border:2px solid #777}.wds{font-size:12px;color:#bcd;margin-top:3px}
 .wr{display:flex;gap:6px;align-items:center}.wr canvas{width:24px;height:24px;image-rendering:pixelated}.wcb{margin-top:4px;padding:9px!important;font-size:15px!important;background:#2a7a3a!important}
 #bw{width:100%;margin-top:4px;font:13px Tahoma,sans-serif;padding:7px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}
@@ -48,11 +45,8 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 #lobby button.pri{background:#2a7a3a;border-color:#7d7;font-size:18px}
 #help{display:none;position:fixed;inset:0;z-index:25;background:#000e;direction:rtl;padding:16px;overflow-y:auto;font-size:14px;line-height:1.9;touch-action:pan-y}
 #help button{font:14px Tahoma,sans-serif;padding:8px 18px;background:#556;color:#fff;border:1px solid #99a;border-radius:6px;margin-top:8px}
-#adw{width:970px;height:250px;max-width:100%;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center}
-#adw .yn-bnr{width:970px;height:250px;max-width:100%}
-@media(max-width:768px){#adw,#adw .yn-bnr{width:300px;height:100px}}
-@media(max-height:420px){#lobby h1{font-size:20px}#lobby button{padding:6px 14px}}
-</style></head><body>
+#gr.sm #lobby h1{font-size:20px}#gr.sm #lobby button{padding:6px 14px}
+</style></head><body><div id="gr">
 <canvas id="c"></canvas><div id="cr"></div><div id="tip">نگه‌داشتن = تخریب | لمس کوتاه = ساخت/ضربه | چپ = حرکت</div>
 <div id="base"><div id="kn"></div></div>
 <div class="b" id="bj" style="right:24px;bottom:70px">⬆</div>
@@ -63,15 +57,37 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 <div id="st"></div><div id="hb"></div><div class="b" id="bb" style="left:30px;top:12px;width:44px;height:44px;font-size:18px">🎒</div>
 <div id="bag"><div id="bl"><div class="g" id="bg"></div><div class="g" id="bh"></div><div style="text-align:center;font-size:12px">لمس دو خانه = جابجایی | بستن: 🎒</div><button id="bw" onpointerdown="event.stopPropagation();openWS(0)">🔨 ساخت دستی</button></div></div>
 <div id="hf"></div><div id="tt"></div><div id="ws"><div id="wh"><b id="wt"></b><span id="wtabs"></span><button id="wx">✕</button></div><div id="wb"><div id="wl"></div><div id="wd"></div></div></div><div id="msg">مُردی! در حال برگشت…</div><div id="lobby"><h1>⛏ Wild Frontier</h1><div class="sub">دنیای بی‌پایان ماینکرافتی؛ بساز، بکَن، زنده بمان</div>
-<div id="lm"><button class="pri" id="lstart">▶ شروع بازی</button><button id="lnew">🔄 بازی جدید</button><button id="lhelp">❓ راهنما</button><button id="lexit">✕ خروج</button></div>
-<div id="adw"><div class="yn-bnr" id="ynpos-21448"></div></div></div>
+<div id="lm"><button class="pri" id="lstart">▶ شروع بازی</button><button id="lnew">🔄 بازی جدید</button><button id="lhelp">❓ راهنما</button><button id="lexit">✕ خروج</button></div></div>
 <div id="help"><b>راهنمای بازی</b><br>• چپ صفحه: جوی‌استیک حرکت | راست صفحه: چرخش دوربین<br>• نگه‌داشتن روی بلوک = تخریب | لمس کوتاه = ساخت یا ضربه به موجودات<br>• ⬆ پرش و شنا | ⬇ پایین رفتن | 🕊 پرواز | 🍖 غذا خوردن<br>• 🎒 کیف: ساخت دستی و جابجایی آیتم‌ها؛ با میز کار و کوره ابزار و سلاح بساز<br>• شب‌ها دشمن‌ها ظاهر می‌شوند؛ صندوق‌های گنج را در غارها پیدا کن.<br><button id="hclose">بستن</button></div>
-<div id="rot">لطفاً گوشی را بچرخانید (حالت افقی)</div>
+</div>
+<script>
+// ---- landscape-in-portrait layout: game is always landscape, phone/Eitaa stay as they are ----
+var LW=innerWidth,LH=innerHeight,LROT=false;
+function LPT(x,y){return LROT?[y,LH-x]:[x,y]}
+function layoutGame(){
+ const gr=document.getElementById('gr'),w=innerWidth,h=innerHeight;
+ const mob=/Android|iPhone|iPad|iPod|Mobile|HarmonyOS/i.test(navigator.userAgent||'');const fine=window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches;const touch=mob&&!fine;
+ LROT=!!(touch&&h>w);
+ if(LROT){LW=h;LH=w;gr.style.width=h+'px';gr.style.height=w+'px';gr.style.transform='translateX('+w+'px) rotate(90deg)'}
+ else{LW=w;LH=h;gr.style.width='100%';gr.style.height='100%';gr.style.transform='none'}
+ gr.style.setProperty('--vw',(LW/100)+'px');gr.style.setProperty('--vh',(LH/100)+'px');
+ gr.classList.toggle('rot',LROT);gr.classList.toggle('sm',LH<=420);
+}
+layoutGame();
+// manual drag-scroll for lists while rotated (native scrolling follows screen axes, not the rotated ones)
+(function(){
+ let el=null,ly=0;const SEL='#rl,#wl,#wd,#lobby,#help';
+ document.addEventListener('pointerdown',e=>{if(!LROT||e.pointerType==='mouse')return;el=e.target.closest?e.target.closest(SEL):null;if(el)ly=LPT(e.clientX,e.clientY)[1]},true);
+ document.addEventListener('pointermove',e=>{if(!el||!LROT)return;const y=LPT(e.clientX,e.clientY)[1];el.scrollTop-=y-ly;ly=y},true);
+ const end=()=>{el=null};document.addEventListener('pointerup',end,true);document.addEventListener('pointercancel',end,true);
+ // keep the page itself from scrolling / pulling Eitaa's sheet down
+ document.addEventListener('touchmove',e=>{if(LROT||!(e.target.closest&&e.target.closest(SEL)))e.preventDefault()},{passive:false});
+})();
+</script>
 <script>
 try{window.Eitaa.WebApp.ready();
 window.Eitaa.WebApp.expand();
 window.Eitaa.WebApp.disableVerticalSwipes();}catch(e){console.warn('Eitaa SDK unavailable',e)}
-try{setTimeout(()=>{const b=document.getElementById('ynpos-21448'),w=document.getElementById('adw');if(b&&w&&!b.children.length&&!b.textContent.trim())w.style.display='none'},5000)}catch(e){}
 const cv=document.getElementById('c'),gl=cv.getContext('webgl',{antialias:false});
 // ---------- atlas ----------
 const NT=96,T=document.createElement('canvas');T.width=NT*16;T.height=16;const tc=T.getContext('2d');
@@ -404,20 +420,20 @@ addEventListener('pointerdown',()=>{try{AC&&AC.resume()}catch(e){}});
 let jsId=null,lkId=null,jo,last,moved=0,tt=0,hold=0,hs_=0,hk='';const kn=document.getElementById('kn');
 cv.addEventListener('pointerdown',e=>{if(e.pointerType=='mouse'){if(!document.pointerLockElement)cv.requestPointerLock&&cv.requestPointerLock();else if(e.button==2)plc();else{const m=mobHit();if(m)atk(m);else{hold=1;hs_=0;hk=''}}return}
  cv.setPointerCapture(e.pointerId);
- if(e.clientX<innerWidth*.4&&jsId===null){jsId=e.pointerId;const r=document.getElementById('base').getBoundingClientRect();jo=[r.left+r.width/2,r.top+r.height/2];js(e)}
- else if(lkId===null){lkId=e.pointerId;last=[e.clientX,e.clientY];moved=0;tt=performance.now();hold=1;hs_=0;hk=''}});
+ if(LPT(e.clientX,e.clientY)[0]<LW*.4&&jsId===null){jsId=e.pointerId;const r=document.getElementById('base').getBoundingClientRect();jo=LPT(r.left+r.width/2,r.top+r.height/2);js(e)}
+ else if(lkId===null){lkId=e.pointerId;last=LPT(e.clientX,e.clientY);moved=0;tt=performance.now();hold=1;hs_=0;hk=''}});
 cv.addEventListener('pointermove',e=>{if(e.pointerType=='mouse')return;
  if(e.pointerId===jsId)js(e);
- else if(e.pointerId===lkId){const dx=e.clientX-last[0],dy=e.clientY-last[1];last=[e.clientX,e.clientY];moved+=Math.abs(dx)+Math.abs(dy);yaw+=dx*.006;pitch=Math.max(-1.55,Math.min(1.55,pitch-dy*.006))}});
-function js(e){let dx=(e.clientX-jo[0])/45,dy=(e.clientY-jo[1])/45;const l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}mv.x=dx;mv.z=-dy;kn.style.transform=`translate(${dx*30}px,${dy*30}px)`}
+ else if(e.pointerId===lkId){const q=LPT(e.clientX,e.clientY),dx=q[0]-last[0],dy=q[1]-last[1];last=q;moved+=Math.abs(dx)+Math.abs(dy);yaw+=dx*.006;pitch=Math.max(-1.55,Math.min(1.55,pitch-dy*.006))}});
+function js(e){const q=LPT(e.clientX,e.clientY);let dx=(q[0]-jo[0])/45,dy=(q[1]-jo[1])/45;const l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}mv.x=dx;mv.z=-dy;kn.style.transform=`translate(${dx*30}px,${dy*30}px)`}
 const up=e=>{if(e.pointerType=='mouse'){hold=0;return}if(e.pointerId===jsId){jsId=null;mv.x=mv.z=0;kn.style.transform=''}
  if(e.pointerId===lkId){lkId=null;hold=0;if(moved<10&&performance.now()-tt<250)plc()}};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 const bt=(id,f,u)=>{const b=document.getElementById(id);b.addEventListener('pointerdown',e=>{e.preventDefault();f()});b.addEventListener('pointerup',u||(()=>{}));b.addEventListener('pointercancel',u||(()=>{}))};
 bt('bj',()=>jmp=1,()=>jmp=0);bt('bd',()=>dn=1,()=>dn=0);bt('ba',eat);bt('bf',()=>{fly=!fly;document.getElementById('bf').style.background=fly?'#4a8c':'#0006'});
 // ---------- loop ----------
-function rs(){const d=Math.min(devicePixelRatio||1,1.25);cv.width=innerWidth*d;cv.height=innerHeight*d;gl.viewport(0,0,cv.width,cv.height)}
-addEventListener('resize',rs);rs();
+function rs(){layoutGame();const d=Math.min(devicePixelRatio||1,1.25);cv.width=LW*d;cv.height=LH*d;gl.viewport(0,0,cv.width,cv.height)}
+addEventListener('resize',rs);addEventListener('orientationchange',()=>setTimeout(rs,150));rs();setTimeout(rs,400);setTimeout(rs,1200);
 function at(){gl.vertexAttribPointer(aP,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(aT,2,gl.FLOAT,false,24,12);gl.vertexAttribPointer(aS,1,gl.FLOAT,false,24,20)}
 let started=0,lt=performance.now(),sv=0,wtk=0,stk='',pcx=1e9,pcz=1e9,need=[];
 (function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-lt)/1000,.05);lt=now;acd-=dt;if(started){dayT=(dayT+dt/300)%1;upd(dt)}
