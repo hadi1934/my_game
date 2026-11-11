@@ -1,6 +1,10 @@
 <!DOCTYPE html><html lang="fa"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Wild Frontier - Minecraft</title>
+<script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+<script>
+!function(e,t,n){e.yektanetAnalyticsObject=n,e[n]=e[n]||function(){e[n].q.push(arguments)},e[n].q=e[n].q||[];var a=t.getElementsByTagName("head")[0],r=new Date,c="https://cdn.yektanet.ir/superscript-v2/diruUGgQ/native-49263/yn_pub.js?v="+r.getFullYear().toString()+"0"+r.getMonth()+"0"+r.getDate()+"0"+r.getHours(),s=t.createElement("link");s.rel="preload",s.as="script",s.href=c,a.appendChild(s);var l=t.createElement("script");l.async=!0,l.src=c,a.appendChild(l)}(window,document,"yektanet");
+</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none;font-family:system-ui,Tahoma,sans-serif;color:#fff}
@@ -35,6 +39,19 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 .wi{display:flex;gap:8px;align-items:center}.wi canvas{width:64px;height:64px;image-rendering:pixelated;background:#0006;border:2px solid #777}.wds{font-size:12px;color:#bcd;margin-top:3px}
 .wr{display:flex;gap:6px;align-items:center}.wr canvas{width:24px;height:24px;image-rendering:pixelated}.wcb{margin-top:4px;padding:9px!important;font-size:15px!important;background:#2a7a3a!important}
 #bw{width:100%;margin-top:4px;font:13px Tahoma,sans-serif;padding:7px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}
+
+#lobby{position:fixed;inset:0;z-index:20;background:linear-gradient(#0b1a2af0,#1c3a1cf0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:8px;direction:rtl;overflow-y:auto;touch-action:pan-y}
+#lobby h1{margin:0;font-size:28px;text-shadow:0 3px 6px #000;letter-spacing:1px}
+#lobby .sub{font-size:12px;color:#cde}
+#lm{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+#lobby button{font:15px Tahoma,sans-serif;padding:10px 22px;min-width:130px;background:#556;color:#fff;border:2px solid #99a;border-radius:6px}
+#lobby button.pri{background:#2a7a3a;border-color:#7d7;font-size:18px}
+#help{display:none;position:fixed;inset:0;z-index:25;background:#000e;direction:rtl;padding:16px;overflow-y:auto;font-size:14px;line-height:1.9;touch-action:pan-y}
+#help button{font:14px Tahoma,sans-serif;padding:8px 18px;background:#556;color:#fff;border:1px solid #99a;border-radius:6px;margin-top:8px}
+#adw{width:970px;height:250px;max-width:100%;overflow:hidden;flex:none;display:flex;align-items:center;justify-content:center}
+#adw .yn-bnr{width:970px;height:250px;max-width:100%}
+@media(max-width:768px){#adw,#adw .yn-bnr{width:300px;height:100px}}
+@media(max-height:420px){#lobby h1{font-size:20px}#lobby button{padding:6px 14px}}
 </style></head><body>
 <canvas id="c"></canvas><div id="cr"></div><div id="tip">نگه‌داشتن = تخریب | لمس کوتاه = ساخت/ضربه | چپ = حرکت</div>
 <div id="base"><div id="kn"></div></div>
@@ -45,18 +62,16 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 <div id="aim"><svg width="54" height="54" viewBox="0 0 54 54"><circle cx="27" cy="27" r="22" fill="none" stroke="#fff5" stroke-width="4"/><circle id="pa" cx="27" cy="27" r="22" fill="none" stroke="#ffe36a" stroke-width="4" stroke-dasharray="138.2" stroke-dashoffset="138.2"/></svg></div>
 <div id="st"></div><div id="hb"></div><div class="b" id="bb" style="left:30px;top:12px;width:44px;height:44px;font-size:18px">🎒</div>
 <div id="bag"><div id="bl"><div class="g" id="bg"></div><div class="g" id="bh"></div><div style="text-align:center;font-size:12px">لمس دو خانه = جابجایی | بستن: 🎒</div><button id="bw" onpointerdown="event.stopPropagation();openWS(0)">🔨 ساخت دستی</button></div></div>
-<div id="hf"></div><div id="tt"></div><div id="ws"><div id="wh"><b id="wt"></b><span id="wtabs"></span><button id="wx">✕</button></div><div id="wb"><div id="wl"></div><div id="wd"></div></div></div><div id="msg">مُردی! در حال برگشت…</div><div id="rot">لطفاً گوشی را بچرخانید (حالت افقی)</div>
+<div id="hf"></div><div id="tt"></div><div id="ws"><div id="wh"><b id="wt"></b><span id="wtabs"></span><button id="wx">✕</button></div><div id="wb"><div id="wl"></div><div id="wd"></div></div></div><div id="msg">مُردی! در حال برگشت…</div><div id="lobby"><h1>⛏ Wild Frontier</h1><div class="sub">دنیای بی‌پایان ماینکرافتی؛ بساز، بکَن، زنده بمان</div>
+<div id="lm"><button class="pri" id="lstart">▶ شروع بازی</button><button id="lnew">🔄 بازی جدید</button><button id="lhelp">❓ راهنما</button><button id="lexit">✕ خروج</button></div>
+<div id="adw"><div class="yn-bnr" id="ynpos-21448"></div></div></div>
+<div id="help"><b>راهنمای بازی</b><br>• چپ صفحه: جوی‌استیک حرکت | راست صفحه: چرخش دوربین<br>• نگه‌داشتن روی بلوک = تخریب | لمس کوتاه = ساخت یا ضربه به موجودات<br>• ⬆ پرش و شنا | ⬇ پایین رفتن | 🕊 پرواز | 🍖 غذا خوردن<br>• 🎒 کیف: ساخت دستی و جابجایی آیتم‌ها؛ با میز کار و کوره ابزار و سلاح بساز<br>• شب‌ها دشمن‌ها ظاهر می‌شوند؛ صندوق‌های گنج را در غارها پیدا کن.<br><button id="hclose">بستن</button></div>
+<div id="rot">لطفاً گوشی را بچرخانید (حالت افقی)</div>
 <script>
-// ---------- Eitaa WebApp initialization ----------
-try {
-  if (window.Eitaa && window.Eitaa.WebApp) {
-    window.Eitaa.WebApp.ready();
-    window.Eitaa.WebApp.expand();
-    window.Eitaa.WebApp.disableVerticalSwipes();
-  }
-} catch (e) {
-  console.warn('Eitaa WebApp initialization unavailable:', e);
-}
+try{window.Eitaa.WebApp.ready();
+window.Eitaa.WebApp.expand();
+window.Eitaa.WebApp.disableVerticalSwipes();}catch(e){console.warn('Eitaa SDK unavailable',e)}
+try{setTimeout(()=>{const b=document.getElementById('ynpos-21448'),w=document.getElementById('adw');if(b&&w&&!b.children.length&&!b.textContent.trim())w.style.display='none'},5000)}catch(e){}
 const cv=document.getElementById('c'),gl=cv.getContext('webgl',{antialias:false});
 // ---------- atlas ----------
 const NT=96,T=document.createElement('canvas');T.width=NT*16;T.height=16;const tc=T.getContext('2d');
@@ -362,13 +377,19 @@ function ui(){for(let i=0;i<36;i++){const s=inv[i];for(const d of els[i]){const 
  if(uiK=='ws')renderWS();clearTimeout(ui.t);ui.t=setTimeout(save,1500)}
 function addI(id,q){const s=inv.find(x=>x.id==id&&x.n<64)||inv.find(x=>!x.id);if(!s)return;s.id=id;s.n++;if(!q)snd(660,.05,'sine');ui()}
 // ---------- Eitaa back button ----------
-const EW=window.Eitaa&&window.Eitaa.WebApp;
-let uiK='';
-function showUI(k){uiK=k;bagOpen=1;first=null;bag.style.display=k=='bag'?'flex':'none';wsEl.style.display=k=='ws'?'flex':'none';ui();EW&&EW.BackButton.show()}
-function hideUI(){uiK='';bagOpen=0;first=null;bag.style.display='none';wsEl.style.display='none';ui();EW&&EW.BackButton.hide()}
+const EW=(window.Eitaa&&window.Eitaa.WebApp&&window.Eitaa.WebApp.BackButton)?window.Eitaa.WebApp:null;
+let uiK='';const helpEl=document.getElementById('help'),lobbyEl=document.getElementById('lobby');
+function showUI(k){uiK=k;bagOpen=1;first=null;bag.style.display=k=='bag'?'flex':'none';wsEl.style.display=k=='ws'?'flex':'none';helpEl.style.display=k=='help'?'block':'none';ui();EW&&EW.BackButton.show()}
+function hideUI(){uiK='';bagOpen=0;first=null;bag.style.display='none';wsEl.style.display='none';helpEl.style.display='none';ui();EW&&EW.BackButton.hide()}
 function bagToggle(){if(uiK)history.back();else{showUI('bag');history.pushState({u:1},'')}}
 function openWS(m){wm=m;wsel=null;wcat=0;if(!uiK)history.pushState({u:1},'');showUI('ws')}
 addEventListener('popstate',()=>{if(bagOpen)hideUI()});
+function lobbyBtn(id,f){document.getElementById(id).addEventListener('click',e=>{e.stopPropagation();f()})}
+lobbyBtn('lstart',()=>{lobbyEl.style.display='none';started=1;lt=performance.now();try{AC&&AC.resume()}catch(e){}});
+lobbyBtn('lnew',()=>{try{localStorage.removeItem('mc3_e');localStorage.removeItem('mc3_i');localStorage.removeItem('mc3_p')}catch(e){}location.reload()});
+lobbyBtn('lhelp',()=>{history.pushState({u:1},'');showUI('help')});
+lobbyBtn('hclose',()=>history.back());
+lobbyBtn('lexit',()=>{try{window.Eitaa.WebApp.close()}catch(e){try{window.close()}catch(e2){}}});
 try{if(EW){EW.BackButton.onClick(()=>history.back());EW.BackButton.hide()}}catch(e){}
 document.getElementById('wx').onpointerdown=e=>{e.stopPropagation();history.back()};
 document.getElementById('bb').addEventListener('pointerdown',e=>{e.preventDefault();bagToggle()});
@@ -398,10 +419,10 @@ bt('bj',()=>jmp=1,()=>jmp=0);bt('bd',()=>dn=1,()=>dn=0);bt('ba',eat);bt('bf',()=
 function rs(){const d=Math.min(devicePixelRatio||1,1.25);cv.width=innerWidth*d;cv.height=innerHeight*d;gl.viewport(0,0,cv.width,cv.height)}
 addEventListener('resize',rs);rs();
 function at(){gl.vertexAttribPointer(aP,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(aT,2,gl.FLOAT,false,24,12);gl.vertexAttribPointer(aS,1,gl.FLOAT,false,24,20)}
-let lt=performance.now(),sv=0,wtk=0,stk='',pcx=1e9,pcz=1e9,need=[];
-(function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-lt)/1000,.05);lt=now;acd-=dt;dayT=(dayT+dt/300)%1;upd(dt);
+let started=0,lt=performance.now(),sv=0,wtk=0,stk='',pcx=1e9,pcz=1e9,need=[];
+(function loop(now){requestAnimationFrame(loop);const dt=Math.min((now-lt)/1000,.05);lt=now;acd-=dt;if(started){dayT=(dayT+dt/300)%1;upd(dt)}
  wtk+=dt;if(wtk>.1){wtk=0;waterTick()}
- spawn(dt);for(const m of mobs)mobUpd(m,dt);for(let i=mobs.length-1;i>=0;i--)if(mobs[i].hp<=0)mobs.splice(i,1);
+ if(started){spawn(dt);for(const m of mobs)mobUpd(m,dt)}for(let i=mobs.length-1;i>=0;i--)if(mobs[i].hp<=0)mobs.splice(i,1);
  for(let i=parts.length-1;i>=0;i--){const q=parts[i];q.vy-=15*dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.z+=q.vz*dt;if((q.t-=dt)<=0)parts.splice(i,1)}
  const[M,f]=vp(E(),yaw,pitch,cv.width/cv.height);FW=f;tg=ray(f);
  let pr=0;const pa=document.getElementById('pa');
@@ -420,5 +441,5 @@ let lt=performance.now(),sv=0,wtk=0,stk='',pcx=1e9,pcz=1e9,need=[];
  gl.depthMask(false);for(const c of vis){if(!c.n2)continue;gl.bindBuffer(gl.ARRAY_BUFFER,c.b2);at();gl.drawArrays(gl.TRIANGLES,0,c.n2)}gl.depthMask(true);
  if(tg){const T2=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,tg.h[0],tg.h[1],tg.h[2],1]);gl.uniformMatrix4fv(uM,false,mul(M,T2));gl.bindBuffer(gl.ARRAY_BUFFER,olb);at();gl.drawArrays(gl.LINES,0,24)}
  const s2='❤'.repeat(Math.ceil(hp/2))+'   '+'🍗'.repeat(Math.ceil(food/2))+(air<10?'   '+'🫧'.repeat(Math.ceil(air)):'');if(s2!=stk){stk=s2;document.getElementById('st').textContent=s2}
- if((sv+=dt)>5){sv=0;save()}})(lt);
+ if(started&&(sv+=dt)>5){sv=0;save()}})(lt);
 </script></body></html>
