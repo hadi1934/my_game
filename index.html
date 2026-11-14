@@ -46,6 +46,14 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 #help{display:none;position:fixed;inset:0;z-index:25;background:#000e;direction:rtl;padding:16px;overflow-y:auto;font-size:14px;line-height:1.9;touch-action:pan-y}
 #help button{font:14px Tahoma,sans-serif;padding:8px 18px;background:#556;color:#fff;border:1px solid #99a;border-radius:6px;margin-top:8px}
 #gr.sm #lobby h1{font-size:20px}#gr.sm #lobby button{padding:6px 14px}
+
+#promo{display:none;position:fixed;inset:0;z-index:40;background:linear-gradient(#0b1a2afa,#1c3a1cfa);flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;direction:rtl;text-align:center}
+#promo .pi{font-size:46px;line-height:1}
+#promo .pt{font-size:16px;line-height:2;max-width:480px;text-shadow:0 2px 4px #000}
+#promo button{font:16px Tahoma,sans-serif;padding:11px 26px;background:#2a7a3a;color:#fff;border:2px solid #7d7;border-radius:8px}
+#promo #pclose{position:absolute;top:10px;right:12px;width:42px;height:42px;padding:0;font-size:20px;line-height:1;background:#0006;border:2px solid #fff8;border-radius:50%}
+#promo .ps{font-size:11px;color:#9ab}
+#gr.sm #promo{gap:8px;padding:10px}#gr.sm #promo .pi{font-size:30px}#gr.sm #promo .pt{font-size:13px;line-height:1.7}#gr.sm #promo button{padding:7px 18px;font-size:14px}
 </style></head><body><div id="gr">
 <canvas id="c"></canvas><div id="cr"></div><div id="tip">نگه‌داشتن = تخریب | لمس کوتاه = ساخت/ضربه | چپ = حرکت</div>
 <div id="base"><div id="kn"></div></div>
@@ -58,6 +66,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 <div id="bag"><div id="bl"><div class="g" id="bg"></div><div class="g" id="bh"></div><div style="text-align:center;font-size:12px">لمس دو خانه = جابجایی | بستن: 🎒</div><button id="bw" onpointerdown="event.stopPropagation();openWS(0)">🔨 ساخت دستی</button></div></div>
 <div id="hf"></div><div id="tt"></div><div id="ws"><div id="wh"><b id="wt"></b><span id="wtabs"></span><button id="wx">✕</button></div><div id="wb"><div id="wl"></div><div id="wd"></div></div></div><div id="msg">مُردی! در حال برگشت…</div><div id="lobby"><h1>⛏ Wild Frontier</h1><div class="sub">دنیای بی‌پایان ماینکرافتی؛ بساز، بکَن، زنده بمان</div>
 <div id="lm"><button class="pri" id="lstart">▶ شروع بازی</button><button id="lnew">🔄 بازی جدید</button><button id="lhelp">❓ راهنما</button><button id="lexit">✕ خروج</button></div></div>
+<div id="promo"><button id="pclose" aria-label="بستن">✕</button><div class="pi">📢</div><div class="pt">برای اینکه بازی ما را گم نکنید و از به‌روزرسانی‌های ما لذت ببرید، برنامه ما را استارت کنید.</div><button id="pgo">🚀 رفتن به پروفایل بازی در ایتا</button><div class="ps">@nirogah_app</div></div>
 <div id="help"><b>راهنمای بازی</b><br>• چپ صفحه: جوی‌استیک حرکت | راست صفحه: چرخش دوربین<br>• نگه‌داشتن روی بلوک = تخریب | لمس کوتاه = ساخت یا ضربه به موجودات<br>• ⬆ پرش و شنا | ⬇ پایین رفتن | 🕊 پرواز | 🍖 غذا خوردن<br>• 🎒 کیف: ساخت دستی و جابجایی آیتم‌ها؛ با میز کار و کوره ابزار و سلاح بساز<br>• شب‌ها دشمن‌ها ظاهر می‌شوند؛ صندوق‌های گنج را در غارها پیدا کن.<br><button id="hclose">بستن</button></div>
 </div>
 <script>
@@ -458,4 +467,16 @@ let started=0,lt=performance.now(),sv=0,wtk=0,stk='',pcx=1e9,pcz=1e9,need=[];
  if(tg){const T2=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,tg.h[0],tg.h[1],tg.h[2],1]);gl.uniformMatrix4fv(uM,false,mul(M,T2));gl.bindBuffer(gl.ARRAY_BUFFER,olb);at();gl.drawArrays(gl.LINES,0,24)}
  const s2='❤'.repeat(Math.ceil(hp/2))+'   '+'🍗'.repeat(Math.ceil(food/2))+(air<10?'   '+'🫧'.repeat(Math.ceil(air)):'');if(s2!=stk){stk=s2;document.getElementById('st').textContent=s2}
  if(started&&(sv+=dt)>5){sv=0;save()}})(lt);
+// ---------- one-time promo (shown once per user) ----------
+(function(){
+ const pe=document.getElementById('promo');if(!pe)return;
+ let seen=false;try{seen=localStorage.getItem('nirogah_promo_seen')==='1'}catch(e){}
+ if(!seen){pe.style.display='flex';try{localStorage.setItem('nirogah_promo_seen','1')}catch(e){}}
+ ['pointerdown','pointerup','touchstart'].forEach(t=>pe.addEventListener(t,e=>e.stopPropagation()));
+ document.getElementById('pclose').addEventListener('click',e=>{e.stopPropagation();pe.style.display='none'});
+ document.getElementById('pgo').addEventListener('click',e=>{e.stopPropagation();
+  const u='https://eitaa.com/nirogah_app';
+  try{window.Eitaa.WebApp.openLink(u)}catch(e1){try{window.open(u,'_blank')}catch(e2){location.href=u}}
+ });
+})();
 </script></body></html>
