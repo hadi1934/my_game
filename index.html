@@ -27,12 +27,12 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 #hf{position:fixed;inset:0;background:#f00;opacity:0;pointer-events:none;transition:opacity .3s}
 #msg{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#600a;font-size:22px;z-index:8;pointer-events:none}
 #tt{position:fixed;top:34px;left:0;right:0;text-align:center;pointer-events:none;font-size:15px;text-shadow:0 1px 3px #000;z-index:7}
-#ws{display:none;position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);width:min(640px,calc(var(--vw,1vw)*97));max-height:calc(var(--vh,1vh)*94);background:#222f;border:2px solid #888;border-radius:8px;z-index:6;flex-direction:column;direction:rtl;padding:6px;gap:6px}
+#ws{display:none;position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);width:min(640px,calc(var(--vw,1vw)*97));max-height:calc(var(--vh,1vh)*94);background:#222f;border:2px solid #888;border-radius:8px;z-index:6;flex-direction:column;direction:rtl;padding:6px;gap:6px;overflow:hidden}
 #wh{display:flex;gap:6px;align-items:center;flex-wrap:wrap}#wh b{font-size:15px}#wtabs{display:flex;gap:3px;flex:1;flex-wrap:wrap}
 #ws button{font:12px Tahoma,sans-serif;padding:5px 8px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}#ws button.on{background:#47a}#ws button.no{opacity:.4}
-#wb{display:flex;gap:8px}#wl{display:grid;grid-template-columns:repeat(5,44px);gap:4px;max-height:calc(var(--vh,1vh)*62);overflow-y:auto;align-content:start;touch-action:pan-y}
+#wb{display:flex;gap:8px;flex:1 1 auto;min-height:0;overflow:hidden}#wl{display:grid;grid-template-columns:repeat(5,44px);gap:4px;min-height:0;overflow-y:auto;align-content:start;touch-action:pan-y}
 #wl .sl{width:44px;height:44px}.sl.no canvas{opacity:.35}
-#wd{flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px;font-size:13px;max-height:calc(var(--vh,1vh)*62);overflow-y:auto;touch-action:pan-y}
+#wd{flex:1;min-width:180px;display:flex;flex-direction:column;gap:5px;font-size:13px;min-height:0;overflow-y:auto;touch-action:pan-y}
 .wi{display:flex;gap:8px;align-items:center}.wi canvas{width:64px;height:64px;image-rendering:pixelated;background:#0006;border:2px solid #777}.wds{font-size:12px;color:#bcd;margin-top:3px}
 .wr{display:flex;gap:6px;align-items:center}.wr canvas{width:24px;height:24px;image-rendering:pixelated}.wcb{margin-top:4px;padding:9px!important;font-size:15px!important;background:#2a7a3a!important}
 #bw{width:100%;margin-top:4px;font:13px Tahoma,sans-serif;padding:7px;background:#556;color:#fff;border:1px solid #99a;border-radius:4px}
@@ -66,6 +66,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 #gr.vm #bj,#gr.vm #bd{display:none!important}
 .adly{max-width:100%;max-height:100px;overflow:hidden;margin:6px auto 0;text-align:center;direction:rtl;touch-action:manipulation;flex-shrink:0}
 .adly:empty{display:none}
+#ws .adly{flex-shrink:0;width:100%;max-height:100px;overflow:hidden;margin:0 auto}.adly iframe,.adly img,.adly>*{max-width:100%!important}
 #box{display:none;position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);background:#222e;border:2px solid #888;padding:6px;border-radius:8px;z-index:5;flex-direction:column;gap:5px;direction:ltr;--s:min(30px,calc(var(--vw,1vw)*4.2))}
 #bx{display:flex;gap:10px;justify-content:center}.bxt{font-size:12px;text-align:center;margin-bottom:3px}
 #box .g{display:grid;grid-template-columns:repeat(9,var(--s));gap:2px;margin-bottom:3px}#box .sl{width:var(--s);height:var(--s);border-width:2px}
@@ -94,7 +95,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;touch-action:none
 • 📦 جعبه انبار: در کیف یا میز کار با ۸ تخته ساخته می‌شود؛ بگذارش و رویش لمس کن. لمس هر خانه آن را منتقل می‌کند و دکمهٔ «انتقال اضافه‌ها» همهٔ کیف (به‌جز نوار پایین) را در جعبه می‌ریزد. جعبهٔ پر را نمی‌شود شکست.<br>
 • 🚪 در: در میز کار با ۴ چوب (چوبی) یا ۶ شمش آهن (آهنی) بساز؛ بگذارش و رویش لمس کن تا باز و بسته شود.<br>
 • 🔦 مشعل: در میز کار یا کارگاه با ۱ ذغال + ۱ چوب (۴ عدد) ساخته می‌شود؛ روی زمین و دیوار بگذارش تا شب‌ها حدود ۸ بلوک اطرافش روشن شود. موجودات در آب فرو می‌روند و فقط آهسته شنا می‌کنند.<br>
-• 🛏 تخت‌خواب: در میز کار با ۳ پشم (از کشتن گوسفند) + ۳ چوب ساخته می‌شود؛ بگذارش و شب‌ها رویش لمس کن تا بخوابی و صبح شود.<br>
+• 🛏 تخت‌خواب: در میز کار با ۳ پشم (از کشتن گوسفند) + ۳ چوب ساخته می‌شود؛ دو بلوک طول دارد و در جهت نگاهت قرار می‌گیرد؛ بگذارش و شب‌ها رویش لمس کن تا بخوابی و صبح شود.<br>
 • 🔥 کبریت: در میز کار با ۱ ذغال + ۱ چوب ساخته می‌شود (۴ عدد)؛ در دست بگیر و روی چوب، درخت یا تخته لمس کن تا آتش روشن شود. آتش آهسته به بلوک‌های سوختنی کناری می‌رسد و خودش خاموش می‌شود، به موجودات و خودت آسیب می‌زند و آب آن را خاموش می‌کند؛ روی آتش بزن تا خاموش شود. تعداد آتش‌ها محدود است.<br>
 • 🏭 کارگاه: در میز کار با ۶ شمش آهن + ۴ تخته ساخته می‌شود. هر چیزی که میز کار می‌سازد را می‌سازد، به‌علاوهٔ موتورهای ۲۰۰ / ۴۰۰ / ۱۰۰۰ سی‌سی (فقط شمش آهن) و هواپیما (موتور + ۶ شمش آهن + ۸ چوب).<br>
 • ✈ هواپیما: بگذارش روی زمین و رویش لمس کن تا سوار شوی. ⚡+ / ⚡− = گاز (سرعت حداکثر به قدرت موتور بستگی دارد) | چپ صفحه = چرخش چپ/راست (هواپیما کج می‌شود) | 🔼 🔽 = بالا / پایین | «دنده عقب» = عقب رفتن | 🚪 = پیاده شدن.<br>
@@ -141,7 +142,7 @@ window.Eitaa.WebApp.expand();
 window.Eitaa.WebApp.disableVerticalSwipes();}catch(e){console.warn('Eitaa SDK unavailable',e)}
 const cv=document.getElementById('c'),gl=cv.getContext('webgl',{antialias:false});
 // ---------- atlas ----------
-const NT=152,T=document.createElement('canvas');T.width=NT*16;T.height=16;const tc=T.getContext('2d');
+const NT=154,T=document.createElement('canvas');T.width=NT*16;T.height=16;const tc=T.getContext('2d');
 const rnd=s=>{s=Math.sin(s)*43758.5453;return s-Math.floor(s)};
 function tile(i,v,fn){for(let y=0;y<16;y++)for(let x=0;x<16;x++){const c=fn(x,y),n=(rnd(i*999+x*17+y*131)-.5)*v,a=c[3]==null?1:c[3];if(a<=0)continue;tc.fillStyle=`rgba(${c[0]+n|0},${c[1]+n|0},${c[2]+n|0},${a})`;tc.fillRect(i*16+x,y,1,1)}}
 const G=[90,160,60],D=[130,90,55],SN=[245,248,250];
@@ -255,6 +256,8 @@ boni(140,'#3a78dc');boni(141,'#2eaa5a');boni(142,'#dc3a3a');
  tile(145,14,rlc(16,0));tile(146,14,rlc(16,16));tile(147,14,rlc(0,16));tile(148,14,rlc(0,0));
  rc(149,1,6,14,7,'#5a5a62');rc(149,1,6,14,1,'#8a8a92');rc(149,2,7,12,5,'#7a5a32');rc(149,3,8,10,1,'#9a7a4a');
  for(const cx of[4,11]){rc(149,cx-1,12,3,3,'#222');rc(149,cx,13,1,1,'#aaa')}rc(149,0,15,16,1,'#8a8a92')}
+tile(152,12,(x,y)=>(x==0||x==15||y==0||y==15)?[120,30,36]:(y==7||y==8)?[170,36,46]:[196,42,52]);
+tile(153,12,(x,y)=>(x==0||x==15||y==0||y==15)?[120,30,36]:(x>=3&&x<=12&&y>=3&&y<=12)?[238,238,244]:[196,42,52]);
 tile(150,10,(x,y)=>(x==0||x==15||y==0||y==15)?[84,54,24]:(x==1||x==14||y==1||y==14)?[150,108,60]:(y%5==0)?[150,108,62]:[178,134,78]);
 tile(151,10,(x,y)=>(x==0||x==15||y==0||y==15)?[84,54,24]:(y==7||y==8)?[96,64,30]:(y<7?((x+y)%8==0?[160,118,66]:[182,138,82]):((x+y)%8==0?[150,108,60]:[170,126,72])));rc(151,6,6,4,5,'#d8dade');rc(151,7,8,2,2,'#2c2c30');
 const B=[0,[0,1,2],[2,2,2],[3,3,3],[5,4,5],[6,6,6],[7,7,7],[8,8,8],[9,9,9],[10,10,10],[12,12,12],[13,13,13],[14,14,14],[15,15,15],[17,17,17],[16,16,16],[18,19,7],[21,20,21],[22,23,2]];
@@ -352,7 +355,7 @@ function set(x,y,z,v){if(v>=87&&v<=89)FN=1;{const o_=get(x,y,z);if((o_>=76&&o_<=
  clearTimeout(set.t);set.t=setTimeout(save,1500)}
 function waterTick(){let n=0;if(wq.length>6000)wq.length=3000;while(wq.length&&n<14){const z=wq.pop(),y=wq.pop(),x=wq.pop();n++;if(get(x,y,z)!=15)continue;
  for(let i=0;i<5;i++){const q=N6[i],X=x+q[0],Y=y+q[1],Z=z+q[2];if(Y<=SEA&&Y>=YB&&get(X,Y,Z)==0){setB(X,Y,Z,15);dirty(X,Z);wq.push(X,Y,Z)}}}}
-function save(){try{localStorage.setItem('mc3_e',JSON.stringify(ed));localStorage.setItem('mc3_i',JSON.stringify(inv.map(x=>[x.id,x.n])));localStorage.setItem('mc3_p',JSON.stringify([...savePos(),yaw,pitch,dayT,hp,food]));localStorage.setItem('mc3_pl',JSON.stringify(planes.map(q=>[q.x,q.y,q.z,q.yaw,q.e])));localStorage.setItem('mc3_vh',JSON.stringify(vehs.map(q=>[q.k,q.x,q.y,q.z,q.yaw,q.e])));localStorage.setItem('mc3_cb',JSON.stringify(cbSer()))}catch(e){}}
+function save(){try{localStorage.setItem('mc3_e',JSON.stringify(ed));localStorage.setItem('mc3_i',JSON.stringify(inv.map(x=>[x.id,x.n])));localStorage.setItem('mc3_p',JSON.stringify([...savePos(),yaw,pitch,dayT,hp,food]));localStorage.setItem('mc3_pl',JSON.stringify(planes.map(q=>[q.x,q.y,q.z,q.yaw,q.e])));localStorage.setItem('mc3_vh',JSON.stringify(vehs.map(q=>[q.k,q.x,q.y,q.z,q.yaw,q.e])));localStorage.setItem('mc3_cb',JSON.stringify(cbSer()));localStorage.setItem('mc3_mb',JSON.stringify(mobs.filter(m=>m.pst&&m.hp>0).map(m=>[m.t,+m.x.toFixed(2),+m.y.toFixed(2),+m.z.toFixed(2),m.hp,+m.yaw.toFixed(2)])))}catch(e){}}
 const ol=[];for(const[a,b]of[[0,0,0,1,0,0],[1,0,0,1,0,1],[1,0,1,0,0,1],[0,0,1,0,0,0],[0,1,0,1,1,0],[1,1,0,1,1,1],[1,1,1,0,1,1],[0,1,1,0,1,0],[0,0,0,0,1,0],[1,0,0,1,1,0],[1,0,1,1,1,1],[0,0,1,0,1,1]].map(e=>[e.slice(0,3),e.slice(3)]))for(const q of[a,b])ol.push(q[0]*1.004-.002,q[1]*1.004-.002,q[2]*1.004-.002,11.5/NT,.5,1);
 const olb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,olb);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(ol),gl.STATIC_DRAW);
 const dynb=gl.createBuffer();
@@ -417,8 +420,11 @@ const MT=[
 {h:1.7,r:.35,hp:14,sp:2,p:[[0,.75,0,.55,.9,.4,133,0],[0,1.5,0,.5,.5,.5,[134,133],0],[-.38,1.15,-.05,.17,.6,.17,133,1],[.38,1.15,-.05,.17,.6,.17,133,2]]}];
 const SWD={28:5,29:7,51:9,52:8};
 const mobs=[],parts=[];let spT=0;
+function nearFence(m){let c=0;const X=Math.floor(m.x),Y=Math.floor(m.y+.2),Z=Math.floor(m.z);for(let x=X-2;x<=X+2;x++)for(let z=Z-2;z<=Z+2;z++){const g=get(x,Y,z);if(g==87||g==88||g==89)if(++c>=3)return true}return false}
+try{JSON.parse(localStorage.getItem('mc3_mb')||'[]').forEach(a=>{if(MT[a[0]])mobs.push({t:a[0],x:a[1],y:a[2],z:a[3],vy:0,vt:0,yaw:a[5]||0,hp:a[4],w:0,mv:0,kx:0,kz:0,cd:1,g:0,ph:0,sa:0,pst:1})})}catch(e){}
 const hitM=(px,py,pz,h,r)=>{for(const x of[px-r,px+r])for(const z of[pz-r,pz+r])for(const y of[py,py+h*.5,py+h-.01]){const X=Math.floor(x),Y=Math.floor(y),Z=Math.floor(z);if(solid(X,Y,Z))return true;if(FN){if(GM&&get(X,Y,Z)==89)return true;if(y-Y<.5){const b=get(X,Y-1,Z);if(b==87||b==88||(GM&&b==89))return true}}}return false};
-function mobUpd(m,dt){if(m.rd)return;const T_=MT[m.t],h=T_.h,r=m.ls?Math.min(T_.r,.32):T_.r,fish=m.t>=6&&m.t!=11&&m.t!=13;let dx=p.x-m.x,dz=p.z-m.z,d=Math.hypot(dx,dz)||1,sp=0,tx=0,tz=0;
+function mobUpd(m,dt){if(m.rd)return;const T_=MT[m.t],h=T_.h,r=m.ls?Math.min(T_.r,.32):T_.r,fish=m.t>=6&&m.t!=11&&m.t!=13;let dx=p.x-m.x,dz=p.z-m.z,d=Math.hypot(dx,dz)||1,sp=0,tx=0,tz=0;if(m.pst&&d>56)return;
+ if(!m.pst&&m.t<6&&m.t!=1&&FN&&((m.fc=(m.fc||0)-dt)<=0)){m.fc=1.5;if(nearFence(m)&&mobs.reduce((c,q)=>c+(q.pst?1:0),0)<60)m.pst=1}
  if(m.t==1){if(!isNight())m.hp-=dt*1.5;if(d<22){m.yaw=Math.atan2(dx,-dz);tx=dx/d;tz=dz/d;if(d>1.1)sp=T_.sp;if(d<1.4&&Math.abs(p.y-m.y)<1.6){m.cd-=dt;if(m.cd<=0){m.cd=1;hurt(2)}}}}
  else{m.w-=dt;if(m.w<=0){m.w=2+Math.random()*3;m.yaw=Math.random()*6.28;m.mv=Math.random()<(fish?.9:.6);m.vt=(Math.random()-.5)*.8}if(m.mv)sp=T_.sp;tx=Math.sin(m.yaw);tz=-Math.cos(m.yaw)}
  if(m.t==13){const g=ghostGo(m,dt);tx=g[0];tz=g[1];sp=g[2];if(sp)m.yaw=Math.atan2(tx,-tz)}
@@ -440,8 +446,8 @@ function mobUpd(m,dt){if(m.rd)return;const T_=MT[m.t],h=T_.h,r=m.ls?Math.min(T_.
  if(m.t==11){if(inw)m.vy=Math.max(m.vy,-1.5);else m.hp-=dt*.8}
  else{if(inw)m.vy=Math.max(m.vy,-2.2);if(isW(get(Math.floor(m.x),Math.floor(m.y+h*.8),Math.floor(m.z)))){m.ar=(m.ar==null?14:m.ar)-dt;if(m.ar<=0)m.hp-=dt*2}else m.ar=14}
  m.ph+=Math.hypot(vx,vz)*dt*2.2;m.sa=Math.min(1,Math.hypot(vx,vz)/1.5);
- if(m.y<YB||d>70)m.hp=0}
-function spawn(dt){spT-=dt;if(spT>0)return;spT=1.2;const nt=isNight(),cn=[];let ln=0,fh=0;for(const m of mobs){if(m.t==13)continue;cn[m.t]=(cn[m.t]||0)+1;if(m.t>=6)fh++;else if(m.t!=1)ln++}
+ if(m.y<YB||(d>70&&!m.pst))m.hp=0}
+function spawn(dt){spT-=dt;if(spT>0)return;spT=1.2;const nt=isNight(),cn=[];let ln=0,fh=0;for(const m of mobs){if(m.t==13||m.pst)continue;cn[m.t]=(cn[m.t]||0)+1;if(m.t>=6)fh++;else if(m.t!=1)ln++}
  const a=Math.random()*6.28,d=14+Math.random()*16,x=Math.floor(p.x+Math.cos(a)*d),z=Math.floor(p.z+Math.sin(a)*d),y=topY(x,z);let t,my=y;
  if(y<=SEA){if(fh>=18||get(x,SEA,z)!=15)return;const dep=SEA-y,r=Math.random();
   if(dep>=8&&r<.15&&(cn[9]||0)<2)t=9;else if(dep>=5&&r<.35&&(cn[10]||0)<3)t=10;else if(r<.5&&(cn[11]||0)<3)t=11;else if(r<.6&&(cn[12]||0)<3)t=12;else t=6+(Math.random()*3|0);
@@ -451,7 +457,7 @@ function spawn(dt){spT-=dt;if(spT>0)return;spT=1.2;const nt=isNight(),cn=[];let 
  mobs.push({t,x:x+.5,y:my,z:z+.5,vy:0,vt:0,yaw:Math.random()*6.28,hp:MT[t].hp,w:0,mv:0,kx:0,kz:0,cd:1,g:0,ph:0,sa:0})}
 function box(a,cx,cy,cz,sx,sy,sz,yw,tl,sw){const s=Math.sin(yw),c=Math.cos(yw),cs=Math.cos(sw||0),sn=Math.sin(sw||0);let fi=0;
  for(const f of FD){const t=Array.isArray(tl)?(fi==3?tl[0]:tl[1]):tl;fi++;for(const k of QI){const lx=(f[3][k*3]-.5)*sx,ry=(f[3][k*3+1]-.5)*sy-sy/2,lz=(f[3][k*3+2]-.5)*sz,y2=ry*cs-lz*sn,z2=ry*sn+lz*cs;vtx(a,cx+lx*c-z2*s,cy+sy/2+y2,cz+lx*s+z2*c,t,UV[k],f[4])}}}
-function drawMobs(a){for(const m of mobs){if(m.t==13&&m.cr&&m.cr.length){const q=m.cr[m.cr.length-1];box(a,m.x,m.y+2.25+Math.sin(m.ph*.6+m.x)*.06,m.z,.3,.3,.3,m.yaw,B[q[3]][1])}if(m.t==4&&m.sd)box(a,m.x,m.y+1.65,m.z,.72,.1,.62,m.yaw,128);const s=Math.sin(m.yaw),c=Math.cos(m.yaw),sw=Math.sin(m.ph*2.5)*.7*m.sa;
+function drawMobs(a){for(const m of mobs){if(m.pst&&Math.hypot(m.x-p.x,m.z-p.z)>60)continue;if(m.t==13&&m.cr&&m.cr.length){const q=m.cr[m.cr.length-1];box(a,m.x,m.y+2.25+Math.sin(m.ph*.6+m.x)*.06,m.z,.3,.3,.3,m.yaw,B[q[3]][1])}if(m.t==4&&m.sd)box(a,m.x,m.y+1.65,m.z,.72,.1,.62,m.yaw,128);const s=Math.sin(m.yaw),c=Math.cos(m.yaw),sw=Math.sin(m.ph*2.5)*.7*m.sa;
   for(const q of MT[m.t].p){let lx=q[0];if(q[7]==3)lx+=Math.sin(m.ph*6)*.05;box(a,m.x+lx*c-q[2]*s,m.y+q[1]+(m.t==13?.3:0),m.z+lx*s+q[2]*c,q[3],q[4],q[5],m.yaw,q[6],q[7]==1?sw:q[7]==2?-sw:0)}}
  for(const q of parts)box(a,q.x,q.y,q.z,.12,.12,.12,0,q.tl)}
 function boom(x,y,z,id){for(let i=0;i<8;i++)parts.push({x:x+.5,y:y+.5,z:z+.5,vx:(Math.random()-.5)*3,vy:Math.random()*3,vz:(Math.random()-.5)*3,t:.6,tl:B[id][1]})}
@@ -493,19 +499,21 @@ function ray(f){const e=E();let pv=null;for(let t=0;t<6;t+=.04){const x=Math.flo
 const DR={1:2,3:8,11:21,13:23,37:-1,38:-1,77:76,78:76,79:76,80:76},NEED={3:1,8:1,9:1,11:1,12:2,13:3,17:1,19:2},ST=[3,8,9,11,12,13,17,19,66,69];
 const HD=[0,.6,.5,1.4,1,.3,.8,.5,1.6,1.6,.3,2,2.4,3,.4,0,1,2,.4],TM=[1,2.5,4,5.5,8];HD[36]=.6;for(let i=76;i<=80;i++)HD[i]=.05;HD[19]=2.4;HD[81]=.5;HD[83]=.1;HD[37]=1;HD[38]=1;HD[66]=1.5;HD[69]=2.5;for(let i=100;i<116;i++)HD[i]=((i-100)>>3)?2.2:1;for(let i=108;i<116;i++)NEED[i]=1;
 const TOOL={24:[0,1,2.5],25:[0,2,4],26:[0,3,5.5],27:[0,4,8],42:[0,1,10],43:[1,1,2.5],44:[1,2,4],45:[1,3,5.5],46:[1,4,8],47:[2,1,2.5],48:[2,2,4],49:[2,3,5.5],50:[2,4,8]};
-const BT=id=>id>=100&&id<=115?(((id-100)>>3)?0:1):ST.includes(id)?0:[4,6,16,36,37,38,81,87,88,89,91].includes(id)?1:[1,2,7,18].includes(id)?2:-1;
+const BT=id=>id>=100&&id<=115?(((id-100)>>3)?0:1):ST.includes(id)?0:[4,6,16,36,37,38,81,87,88,89,91,92,93,94,95].includes(id)?1:[1,2,7,18].includes(id)?2:-1;
 const tier=()=>{const t=TOOL[inv[sel].id];return t&&t[0]==0?t[1]:0};
 const bt_=id=>{const t=TOOL[inv[sel].id],nd=NEED[id]||0;return (HD[id]??.15)/(t&&t[0]==BT(id)?t[2]:1)*(tier()<nd?2.5:1)};
-const brk=()=>{if(tg&&tg.h[1]>YB){const id=get(...tg.h);if(id==39)return;if(id==83){fireOut(tg.h[0],tg.h[1],tg.h[2]);return}if(id==91){const k_=tg.h.join(','),a_=CB[k_];if(a_&&a_.some(s=>s.id)){toast('📦 اول جعبه را خالی کن');snd(120,.15,'square',.12);return}delete CB[k_]}
+const brk=()=>{if(tg&&tg.h[1]>YB){const id=get(...tg.h);if(id==39)return;if(id==83){fireOut(tg.h[0],tg.h[1],tg.h[2]);return}if(id==81||(id>=92&&id<=95)){const h0=tg.h;let a=null,b=null;if(id==81){a=h0;for(let i=0;i<4;i++){const q=[h0[0]+HDIR[i][0],h0[1],h0[2]+HDIR[i][1]];if(get(q[0],q[1],q[2])==92+i){b=q;break}}}else{b=h0;const d=HDIR[id-92],q=[h0[0]-d[0],h0[1],h0[2]-d[1]];if(get(q[0],q[1],q[2])==81)a=q}for(const q of[a,b])if(q){set(q[0],q[1],q[2],0);boom(q[0],q[1],q[2],81)}snd(140,.08,'sawtooth');addI(81);return}if(id==91){const k_=tg.h.join(','),a_=CB[k_];if(a_&&a_.some(s=>s.id)){toast('📦 اول جعبه را خالی کن');snd(120,.15,'square',.12);return}delete CB[k_]}
  if(id>=100&&id<=115){const q=id-100,h0=tg.h,oy=((q>>2)&1)?h0[1]-1:h0[1]+1;set(h0[0],h0[1],h0[2],0);const o=get(h0[0],oy,h0[2]);if(o>=100&&o<=115&&((o-100)>>3)==(q>>3))set(h0[0],oy,h0[2],0);boom(h0[0],h0[1],h0[2],id);snd(140,.08,'sawtooth');if(tier()>=(NEED[id]||0))addI(67+(q>>3));return}set(...tg.h,0);boom(...tg.h,id);snd(140,.08,'sawtooth');const dr=DR[id]===-1?0:(DR[id]||id);if(dr&&tier()>=(NEED[id]||0))addI(dr)}};
 const placeable=id=>id>0&&(id==91||id<20||(id>=32&&id<=36)||id==66||id==69||id==81||id==84||id==85||id==87||id==88);
 const LOOT=[[57,1,4,30],[23,1,3,18],[22,2,6,24],[21,3,8,20],[31,2,5,14],[42,1,1,6],[51,1,1,4],[55,1,1,5],[56,1,1,5],[54,1,1,2],[66,2,5,10]];
 function openChest(h){const g=[],n=3+(Math.random()*3|0),tot=LOOT.reduce((a,l)=>a+l[3],0);for(let i=0;i<n;i++){let t=tot*Math.random();for(const l of LOOT){t-=l[3];if(t<=0){const q=l[1]+Math.floor(Math.random()*(l[2]-l[1]+1));for(let j=0;j<q;j++)addI(l[0],1);g.push(NM[l[0]]+(q>1?" ×"+q:""));break}}}set(h[0],h[1],h[2],38);toast("🎁 گنج پیدا کردی: "+g.join("، "));snd(700,.25,"triangle")}
 const plc=()=>{if(bagOpen||pl||vr||slp||rd)return;const m=mobHit();if(m){if(leashTap(m))return;if(m.t==4&&horseTap(m))return;atk(m);return}if(ropeTap())return;
- {const pa_=planeAim();if(pa_){const e=E(),bd_=tg?Math.hypot(tg.h[0]+.5-e[0],tg.h[1]+.5-e[1],tg.h[2]+.5-e[2]):99;if(pa_.t<bd_+.5){board(pa_.P);return}}}{const va_=vAim();if(va_){const e=E(),bd_=tg?Math.hypot(tg.h[0]+.5-e[0],tg.h[1]+.5-e[1],tg.h[2]+.5-e[2]):99;if(va_.t<bd_+(tg&&(get(tg.h[0],tg.h[1],tg.h[2])==90||get(tg.h[0],tg.h[1]+1,tg.h[2])==90)?2.2:.5)){vBoard(va_.V);return}}}if(!tg||!tg.pv)return;if(inv[sel].id==82){lightFire(tg.h);return}{const bi=get(tg.h[0],tg.h[1],tg.h[2]);if(bi==81){sleepBed();return}if(bi==16){openWS(1);return}if(bi==17){openWS(2);return}if(bi==69){openWS(3);return}if(bi>=100&&bi<=115){toggleDoor(tg.h);return}if(bi==88||bi==89){toggleGate(tg.h);return}if(bi==37){openChest(tg.h);return}if(bi==91){openBox(tg.h);return}}const[x,y,z]=tg.pv;if(y<YB||y>=H)return;const o=get(x,y,z);if(o&&!isW(o)&&o!=39&&!(o==90&&VI[inv[sel].id]))return;
- const s=inv[sel];if(s.id==90){placeRail(x,y,z,s);return}if(s.id==67||s.id==68){placeDoor(x,y,z,s);return}if(s.id>=73&&s.id<=75){placePlane(x,y,z,s);return}{const vi=VI[s.id];if(vi){placeVeh(VT[vi[0]],s.id-VT[vi[0]].b,x,y,z,s);return}}if(s.id==76){placeTorch(x,y,z,s);return}if(!placeable(s.id))return;set(x,y,z,s.id);if(hit(p.x,p.y,p.z)){set(x,y,z,o);return}if(s.id==91)delete CB[x+','+y+','+z];snd(220,.06);if(--s.n<=0)s.id=0;ui()};
+ {const pa_=planeAim();if(pa_){const e=E(),bd_=tg?Math.hypot(tg.h[0]+.5-e[0],tg.h[1]+.5-e[1],tg.h[2]+.5-e[2]):99;if(pa_.t<bd_+.5){board(pa_.P);return}}}{const va_=vAim();if(va_){const e=E(),bd_=tg?Math.hypot(tg.h[0]+.5-e[0],tg.h[1]+.5-e[1],tg.h[2]+.5-e[2]):99;if(va_.t<bd_+(tg&&(get(tg.h[0],tg.h[1],tg.h[2])==90||get(tg.h[0],tg.h[1]+1,tg.h[2])==90)?2.2:.5)){vBoard(va_.V);return}}}if(!tg||!tg.pv)return;if(inv[sel].id==82){lightFire(tg.h);return}{const bi=get(tg.h[0],tg.h[1],tg.h[2]);if(bi==81||(bi>=92&&bi<=95)){sleepBed();return}if(bi==16){openWS(1);return}if(bi==17){openWS(2);return}if(bi==69){openWS(3);return}if(bi>=100&&bi<=115){toggleDoor(tg.h);return}if(bi==88||bi==89){toggleGate(tg.h);return}if(bi==37){openChest(tg.h);return}if(bi==91){openBox(tg.h);return}}const[x,y,z]=tg.pv;if(y<YB||y>=H)return;const o=get(x,y,z);if(o&&!isW(o)&&o!=39&&!(o==90&&VI[inv[sel].id]))return;
+ const s=inv[sel];if(s.id==90){placeRail(x,y,z,s);return}if(s.id==67||s.id==68){placeDoor(x,y,z,s);return}if(s.id>=73&&s.id<=75){placePlane(x,y,z,s);return}{const vi=VI[s.id];if(vi){placeVeh(VT[vi[0]],s.id-VT[vi[0]].b,x,y,z,s);return}}if(s.id==76){placeTorch(x,y,z,s);return}if(s.id==81){placeBed(x,y,z,s,o);return}if(!placeable(s.id))return;set(x,y,z,s.id);if(hit(p.x,p.y,p.z)){set(x,y,z,o);return}if(s.id==91)delete CB[x+','+y+','+z];snd(220,.06);if(--s.n<=0)s.id=0;ui()};
 function placeTorch(x,y,z,s){const h=tg.h,hi=get(h[0],h[1],h[2]);if(isW(get(x,y,z))||hi==76||!solid(h[0],h[1],h[2])||(hi>=77&&hi<=80))return;const wx=h[0]-x,wy=h[1]-y,wz=h[2]-z;let id;if(wy==-1)id=76;else if(wy==1)return;else id=wx==1?77:wx==-1?78:wz==1?79:80;set(x,y,z,id);snd(220,.06);if(--s.n<=0)s.id=0;ui()}
-NM[91]='جعبه انبار';B[91]=[150,151,150];HD[91]=1;
+NM[91]='جعبه انبار';B[91]=[150,151,150];HD[91]=1;B[81]=[152,95,7];for(let i=92;i<=95;i++){NM[i]='تخت‌خواب';B[i]=[153,95,7];HD[i]=.5}
+const HDIR=[[1,0],[-1,0],[0,1],[0,-1]];
+function placeBed(x,y,z,s,o){const f=FW||[0,0,1],pi=Math.abs(f[0])>Math.abs(f[2])?(f[0]>0?0:1):(f[2]>0?2:3),ord=[pi,pi<2?2:0,pi<2?3:1,pi^1];for(const i of ord){const hx=x+HDIR[i][0],hz=z+HDIR[i][1],oh=get(hx,y,hz);if(oh!=0&&!isW(oh))continue;if(!solid(hx,y-1,hz))continue;set(x,y,z,81);set(hx,y,hz,92+i);if(hit(p.x,p.y,p.z)){set(x,y,z,o);set(hx,y,hz,oh);continue}snd(220,.06);if(--s.n<=0)s.id=0;ui();return}toast('🛏 برای تخت دو بلوک جای صاف لازم است');}
 const FOOD={30:5,31:10,40:3,41:8};
 function eat(){const s=inv[sel],f=FOOD[s.id];if(f&&food<20){food=Math.min(20,food+f);if(--s.n<=0)s.id=0;snd(300,.1,'triangle');ui()}}
 // ---------- inventory / crafting ----------
@@ -727,7 +735,7 @@ function drawPlane(a,P){const tr=xf(P),e=P.e,Bt=115+e,At=118+e;
 function drawPlanes(a){for(const P of planes){if(Math.hypot(P.x-p.x,P.z-p.z)>90)continue;drawPlane(a,P)}}
 
 // ================= v6: تخت‌خواب و کبریت =================
-const FIRES=[],MAXF=16,FLAM=new Set([4,5,6,14,16,36,81]),FQ=TQ.concat([[.5,0,0,.5,0,1,.5,1,1,.5,1,0],[0,0,.5,1,0,.5,1,1,.5,0,1,.5]]);
+const FIRES=[],MAXF=16,FLAM=new Set([4,5,6,14,16,36,81,92,93,94,95]),FQ=TQ.concat([[.5,0,0,.5,0,1,.5,1,1,.5,1,0],[0,0,.5,1,0,.5,1,1,.5,0,1,.5]]);
 let fT=0,slp=0;
 function fireMesh(a,x,y,z){for(const q of FQ)for(const k of QI)vtx(a,x+q[k*3],y+q[k*3+1],z+q[k*3+2],96,UV[k],1)}
 const wetNear=(x,y,z)=>{for(const q of N6)if(get(x+q[0],y+q[1],z+q[2])==15)return true;return false};
@@ -902,7 +910,7 @@ const VT={
 const VI={};
 for(const k in VT){const Q=VT[k];Q.k=k;Q.eg.forEach((e,j)=>{const id=Q.b+j;VI[id]=[k,e];NM[id]=Q.nm+' (موتور '+CCS[e]+')';B[id]=[Q.t0+j,Q.t0+j,Q.t0+j];
  rcp(id,1,[[70+e,1]].concat(Q.mat),69,Q.cat,Q.nm+' با موتور '+CCS[e]+' سی‌سی؛ بگذارش روی زمین و رویش لمس کن تا سوار شوی؛ سرعت تا '+Math.round(Q.vm[e]*3.6)+' کیلومتر/ساعت'+(Q.md=='l'?'، از یک پله بالا می‌رود و در آب نمی‌رود':'، فقط روی آب گذاشته می‌شود و روی خشکی نمی‌رود'))})}
-{const Q=VT.car;rcp(Q.b,1,[[70,1]].concat(Q.mat),69,Q.cat,'ماشین با موتور ۲۰۰ سی‌سی؛ موتور ضعیف است و ماشین ساخته نمی‌شود (فقط ۴۰۰ یا ۱۰۰۰)');RC[RC.length-1].w=1;RC[RC.length-1].nm='ماشین (موتور ۲۰۰ ✗ ضعیف)'}
+
 const mkVeh=(k,x,y,z,yw,e)=>({k,x,y,z,yaw:yw,e,s:0,thr:0,rev:false,occ:0,vy:0,fs:null,pitch:0,roll:0,wa:0,wt:0});
 // ارتفاع سطحی که وسیله رویش می‌ایستد؛ اگر جا مجاز نباشد -1e9 (زمینی: آب/گدازه/ته دنیا | آبی: هر چیز جز آب)
 function vSurf(Q,x,z,y0){const X=Math.floor(x),Z=Math.floor(z);
@@ -1101,7 +1109,7 @@ addEventListener('popstate',()=>{if(bagOpen)hideUI()});
 function lobbyBtn(id,f){document.getElementById(id).addEventListener('click',e=>{e.stopPropagation();f()})}
 adlyShow('adly-lobby',0);
 lobbyBtn('lstart',()=>{lobbyEl.style.display='none';started=1;lt=performance.now();try{AC&&AC.resume()}catch(e){}});
-lobbyBtn('lnew',()=>{try{localStorage.removeItem('mc3_e');localStorage.removeItem('mc3_i');localStorage.removeItem('mc3_p');localStorage.removeItem('mc3_pl');localStorage.removeItem('mc3_vh');localStorage.removeItem('mc3_cb')}catch(e){}location.reload()});
+lobbyBtn('lnew',()=>{try{localStorage.removeItem('mc3_e');localStorage.removeItem('mc3_i');localStorage.removeItem('mc3_p');localStorage.removeItem('mc3_pl');localStorage.removeItem('mc3_vh');localStorage.removeItem('mc3_cb');localStorage.removeItem('mc3_mb')}catch(e){}location.reload()});
 lobbyBtn('lhelp',()=>{history.pushState({u:1},'');showUI('help')});
 lobbyBtn('hclose',()=>history.back());
 lobbyBtn('lexit',()=>{try{window.Eitaa.WebApp.close()}catch(e){try{window.close()}catch(e2){}}});
